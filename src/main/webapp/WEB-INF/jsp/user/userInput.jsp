@@ -71,7 +71,7 @@
 						<div class="carousel-item active">
 							<img class="img-fluid" src="/images/slide_01.jpg" alt="コーヒー写真">
 							<div class="carousel-caption d-none d-md-block">
-								<h2>Mr. M COFFEEのこだわり</h2>
+								<h2>Mr. M COFFEEのこだわりaaaaaaaaaaaa</h2>
 								<p>店主が世界中のコーヒー豆を厳選し、コーヒー豆の種類にあわせ、心を込めて焙煎、抽出しております。</p>
 							</div>
 						</div>
