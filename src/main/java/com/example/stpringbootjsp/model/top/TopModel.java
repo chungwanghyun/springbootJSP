@@ -1,8 +1,8 @@
 package com.example.stpringbootjsp.model.top;
 
-public class TopModel {
+public class TopModel implements java.io.Serializable {
 
-	String id ;
+	String id;
 
 	String password;
 
@@ -21,6 +21,5 @@ public class TopModel {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 
 }
