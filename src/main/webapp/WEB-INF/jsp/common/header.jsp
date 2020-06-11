@@ -22,7 +22,7 @@
 				<li class="nav-item active"><a class="nav-link" href="#">Top
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="/user/input"><spring:message code="header.button.user" /></a></li>
+				<li class="nav-item"><a class="nav-link" href="/user/userList"><spring:message code="header.button.user" /></a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Menu</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Coupon</a></li>
 				<!-- ドロップダウン -->

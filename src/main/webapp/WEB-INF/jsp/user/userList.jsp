@@ -13,12 +13,11 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<a class="btn btn-primary" href="/user/input" role="button"><spring:message code="common.button.input"/></a>
+						<a class="btn btn-primary" href="/user/userInput" role="button"><spring:message code="common.button.input"/></a>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</main>
 </body>
 </html>

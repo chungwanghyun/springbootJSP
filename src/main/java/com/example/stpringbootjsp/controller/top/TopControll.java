@@ -1,9 +1,7 @@
 package com.example.stpringbootjsp.controller.top;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -13,29 +11,33 @@ import com.example.stpringbootjsp.model.top.TopModel;
 @RequestMapping("/")
 public class TopControll {
 
-	// 追加
-    @ModelAttribute
-    public TopModel setUpForm() {
-        return new TopModel();
-    }
+//	// 追加
+//    @ModelAttribute
+//    public TopModel setUpForm() {
+//        return new TopModel();
+//    }
 
     @GetMapping("/")
-    public String top() {
+    public String root(TopModel topModel) {
+        return "top/top";
+    }
+
+    @PostMapping("/")
+    public String pRoot(TopModel topModel) {
         return "top/top";
     }
 
     @PostMapping("/top")
-    public String top(Model model) {
+    public String pTop(TopModel topModel) {
         return "top/top";
     }
 
-    // 追加
-    @PostMapping("/login")
-    public String login(TopModel topModel, Model model) {
-
-        model.addAttribute("id", topModel.getId());
-        model.addAttribute("password", new String(topModel.getPassword()));
-
-        return "top/top";
-    }
+//    @PostMapping("/login")
+//    public String pLogin(TopModel topModel, Model model) {
+//
+//        model.addAttribute("id", topModel.getId());
+//        model.addAttribute("password", new String(topModel.getPassword()));
+//
+//        return "top/top";
+//    }
 }

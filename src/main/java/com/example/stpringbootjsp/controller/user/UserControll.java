@@ -1,5 +1,8 @@
 package com.example.stpringbootjsp.controller.user;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,37 +31,42 @@ public class UserControll {
 //    }
 
 	@ModelAttribute
-	public UserInputModel init() {
-		return new UserInputModel();
-	}
+//	public UserInputModel init() {
+//		return new UserInputModel();
+//	}
 
-    @GetMapping("list")
-    public String list(Model model) {
+    @GetMapping("userList")
+    public String userList(Model model) {
         return "user/userList";
     }
 
-    @PostMapping("list")
-    public String pList(Model model) {
+    @PostMapping("userList")
+    public String pUserList(Model model) {
         return "user/userList";
     }
 
-    @GetMapping("input")
-    public String input(@ModelAttribute("userInputModel") UserInputModel userInput) {
+    @GetMapping("userInput")
+    public String userInput(@ModelAttribute("userInputModel") UserInputModel userInput, Model model) {
+    	// 初期値設定
+    	initInput(model);
+
+//    	model.addAttribute("userlist", userlist);
+
         return "user/userInput";
     }
 
-    @PostMapping("/input")
-    public String postInput(@ModelAttribute("userInputModel") @Validated UserInputModel userInput, BindingResult result, Model model) {
+    @PostMapping("/userInput")
+    public String pUserInput(@ModelAttribute("userInputModel") @Validated UserInputModel userInput, BindingResult result, Model model) {
     	//ポイント2
         if (result.hasErrors()) {
-            return input(userInput);
+            return userInput(userInput , model);
         }
+
     	// PRGパターンによりフォームデータの二重送信を防止
     	//「POST」⇒「REDIRECT」⇒「GET」処理によってフォームデータの二重送信を防止する手法
-        return "redirect:/user/list";
+        return "redirect:/user/userList";
 //        return "user/userList";
     }
-
 
     @PostMapping("update")
     public String update(Model model) {
@@ -73,6 +81,30 @@ public class UserControll {
     @PostMapping("detail")
     public String detail(Model model) {
         return "user/userDetail";
+    }
+
+    private void initInput(Model model) {
+    	Map<Integer, String> selectMap = new LinkedHashMap<Integer, String>();
+    	selectMap.put(null, "--Please Select--");
+    	selectMap.put(1, "JAVA");
+        selectMap.put(2, "PHP");
+        selectMap.put(3, "C++");
+        selectMap.put(4, "REACT");
+        selectMap.put(5, "ANGULAR");
+        model.addAttribute("favoriteList", selectMap);
+
+        Map<Integer, String> genderMap = new LinkedHashMap<Integer, String>();
+        genderMap.put(1, "男性");
+        genderMap.put(2, "女性");
+        model.addAttribute("genderList", genderMap);
+
+        Map<Integer, String> hobbyMap = new LinkedHashMap<Integer, String>();
+        hobbyMap.put(1, "Bird watching");
+        hobbyMap.put(2, "Astronomy");
+        hobbyMap.put(3, "Snowboarding");
+        model.addAttribute("hobbyList", hobbyMap);
+//    	List<User> userlist = new ArrayList<>();
+
     }
 
 }
