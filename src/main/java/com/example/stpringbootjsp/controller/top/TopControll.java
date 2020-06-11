@@ -11,33 +11,18 @@ import com.example.stpringbootjsp.model.top.TopModel;
 @RequestMapping("/")
 public class TopControll {
 
-//	// 追加
-//    @ModelAttribute
-//    public TopModel setUpForm() {
-//        return new TopModel();
-//    }
-
     @GetMapping("/")
-    public String root(TopModel topModel) {
+    public String root(TopModel topModel) throws Exception {
         return "top/top";
     }
 
     @PostMapping("/")
-    public String pRoot(TopModel topModel) {
+    public String pRoot(TopModel topModel) throws Exception {
         return "top/top";
     }
 
     @PostMapping("/top")
-    public String pTop(TopModel topModel) {
+    public String pTop(TopModel topModel) throws Exception {
         return "top/top";
     }
-
-//    @PostMapping("/login")
-//    public String pLogin(TopModel topModel, Model model) {
-//
-//        model.addAttribute("id", topModel.getId());
-//        model.addAttribute("password", new String(topModel.getPassword()));
-//
-//        return "top/top";
-//    }
 }

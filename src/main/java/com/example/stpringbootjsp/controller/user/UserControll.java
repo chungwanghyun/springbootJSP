@@ -19,92 +19,98 @@ import com.example.stpringbootjsp.model.user.UserInputModel;
 public class UserControll {
 
 	// 追加
-//    @ModelAttribute
-//    public TopModel setUpForm() {
-//        return new TopModel();
-//    }
+	//    @ModelAttribute
+	//    public TopModel setUpForm() {
+	//        return new TopModel();
+	//    }
 
-//    @ModelAttribute
-//    public UserInputModel setupForm() {
-//    	UserInputModel userInputModel = new UserInputModel();
-//        return userInputModel;
-//    }
+	//    @ModelAttribute
+	//    public UserInputModel setupForm() {
+	//    	UserInputModel userInputModel = new UserInputModel();
+	//        return userInputModel;
+	//    }
 
 	@ModelAttribute
-//	public UserInputModel init() {
-//		return new UserInputModel();
-//	}
+	//	public UserInputModel init() {
+	//		return new UserInputModel();
+	//	}
 
-    @GetMapping("userList")
-    public String userList(Model model) {
-        return "user/userList";
-    }
+	@GetMapping("userList")
+	public String userList(Model model) {
+		return "user/userList";
+	}
 
-    @PostMapping("userList")
-    public String pUserList(Model model) {
-        return "user/userList";
-    }
+	@PostMapping("userList")
+	public String pUserList(Model model) {
+		return "user/userList";
+	}
 
-    @GetMapping("userInput")
-    public String userInput(@ModelAttribute("userInputModel") UserInputModel userInput, Model model) {
-    	// 初期値設定
-    	initInput(model);
+	@GetMapping("userInput")
+	public String userInput(@ModelAttribute("userInputModel") UserInputModel userInput, Model model) {
+		// 初期値設定
+		initInput(model);
 
-//    	model.addAttribute("userlist", userlist);
+		return "user/userInput";
+	}
 
-        return "user/userInput";
-    }
+	@PostMapping("/userInput")
+	public String pUserInput(@ModelAttribute("userInputModel") @Validated UserInputModel userInput,
+			BindingResult result, Model model) {
+		//ポイント2
+		if (result.hasErrors()) {
+			// 初期画面フラグ
+			model.addAttribute("firstCheck", false);
+			// 画面遷移
+			return userInput(userInput, model);
+		}
 
-    @PostMapping("/userInput")
-    public String pUserInput(@ModelAttribute("userInputModel") @Validated UserInputModel userInput, BindingResult result, Model model) {
-    	//ポイント2
-        if (result.hasErrors()) {
-            return userInput(userInput , model);
-        }
+		// PRGパターンによりフォームデータの二重送信を防止
+		//「POST」⇒「REDIRECT」⇒「GET」処理によってフォームデータの二重送信を防止する手法
+		return "redirect:/user/userList";
+		//        return "user/userList";
+	}
 
-    	// PRGパターンによりフォームデータの二重送信を防止
-    	//「POST」⇒「REDIRECT」⇒「GET」処理によってフォームデータの二重送信を防止する手法
-        return "redirect:/user/userList";
-//        return "user/userList";
-    }
+	@PostMapping("update")
+	public String update(Model model) {
+		return "user/userInput";
+	}
 
-    @PostMapping("update")
-    public String update(Model model) {
-        return "user/userInput";
-    }
+	@PostMapping("delete")
+	public String delete(Model model) {
+		return "user/userList";
+	}
 
-    @PostMapping("delete")
-    public String delete(Model model) {
-        return "user/userList";
-    }
+	@PostMapping("detail")
+	public String detail(Model model) {
+		return "user/userDetail";
+	}
 
-    @PostMapping("detail")
-    public String detail(Model model) {
-        return "user/userDetail";
-    }
+	private void initInput(Model model) {
+		Map<Integer, String> selectMap = new LinkedHashMap<Integer, String>();
+		selectMap.put(null, "--Please Select--");
+		selectMap.put(1, "JAVA");
+		selectMap.put(2, "PHP");
+		selectMap.put(3, "C++");
+		selectMap.put(4, "REACT");
+		selectMap.put(5, "ANGULAR");
+		model.addAttribute("favoriteList", selectMap);
 
-    private void initInput(Model model) {
-    	Map<Integer, String> selectMap = new LinkedHashMap<Integer, String>();
-    	selectMap.put(null, "--Please Select--");
-    	selectMap.put(1, "JAVA");
-        selectMap.put(2, "PHP");
-        selectMap.put(3, "C++");
-        selectMap.put(4, "REACT");
-        selectMap.put(5, "ANGULAR");
-        model.addAttribute("favoriteList", selectMap);
+		Map<Integer, String> genderMap = new LinkedHashMap<Integer, String>();
+		genderMap.put(1, "男性");
+		genderMap.put(2, "女性");
+		model.addAttribute("genderList", genderMap);
 
-        Map<Integer, String> genderMap = new LinkedHashMap<Integer, String>();
-        genderMap.put(1, "男性");
-        genderMap.put(2, "女性");
-        model.addAttribute("genderList", genderMap);
+		Map<Integer, String> hobbyMap = new LinkedHashMap<Integer, String>();
+		hobbyMap.put(1, "Bird watching");
+		hobbyMap.put(2, "Astronomy");
+		hobbyMap.put(3, "Snowboarding");
+		model.addAttribute("hobbyList", hobbyMap);
 
-        Map<Integer, String> hobbyMap = new LinkedHashMap<Integer, String>();
-        hobbyMap.put(1, "Bird watching");
-        hobbyMap.put(2, "Astronomy");
-        hobbyMap.put(3, "Snowboarding");
-        model.addAttribute("hobbyList", hobbyMap);
-//    	List<User> userlist = new ArrayList<>();
+		// 初期画面フラグ
+		if (model.getAttribute("firstCheck") == null) {
+			model.addAttribute("firstCheck", true);
+		}
 
-    }
+	}
 
 }

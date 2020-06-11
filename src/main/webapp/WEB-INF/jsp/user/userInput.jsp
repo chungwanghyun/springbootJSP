@@ -8,7 +8,9 @@
 <title><spring:message code="user.input.title" /></title>
 </head>
 <body>
+	<!-- ヘッダー -->
 	<%@ include file="/WEB-INF/jsp/common/header.jsp"%>
+<%-- 	<jsp:include page="/WEB-INF/jsp/common/header.jsp"  flush="false" /> --%>
 	<!-- メイン -->
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb container">
@@ -18,7 +20,7 @@
 				</a>
 			</li>
 			<li class="breadcrumb-item">
-				<a href="/user/list">
+				<a href="/user/userList">
 					<spring:message code="user.list.title" />
 				</a>
 			</li>
@@ -47,7 +49,7 @@
 						 </label>
 						 <div class="col-md-9">
 						 	<spring:bind path="id">
-							 	<form:input path="id" class="form-control form-control-sm ${status.error ? 'is-invalid' : ''}" placeholder="Id" />
+							 	<form:input path="id" class="form-control form-control-sm  ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }" placeholder="Id" />
 							 	<div class="invalid-feedback"><form:errors path="id"/></div>
 						 	</spring:bind>
 						 </div>
@@ -58,7 +60,7 @@
 						 </label>
 						 <div class="col-md-9">
 						 	<spring:bind path="password">
-						 	<form:input path="password" class="form-control form-control-sm ${status.error ? 'is-invalid' : ''}" placeholder="Password"/>
+						 	<form:input path="password" class="form-control form-control-sm ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }" placeholder="Password"/>
 						 	<div class="invalid-feedback"><form:errors path="password"/></div>
 						 	</spring:bind>
 						 </div>
@@ -144,6 +146,7 @@
 		</div>
 
 	</main>
-
+	<!-- フッター -->
+	<%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 </body>
 </html>

@@ -8,6 +8,15 @@ $(document).ready(function() {
 	    $('.custom-file-input').val('');
 	})
 
+//	var targetElements = document.getElementsByClassName('is-valid');
+//	[].forEach.call(targetElements, function(elem) {
+//		alert(1)
+//	 elem.classList.remove('is-valid');
+//	})
+//	var elements = document.getElementsByClassName('is-valid');
+//	Array.prototype.forEach.call(elements, function(element) {
+//	  element.classList.remove('is-valid');
+//	});
 
 //	$.ajax({
 //        url : '/testDocWeb/forwardToCallingSystem',
