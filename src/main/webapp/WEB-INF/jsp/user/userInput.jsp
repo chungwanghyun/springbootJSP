@@ -37,7 +37,7 @@
 		<div class="py-3">
 			<div class="container">
 				<h3><spring:message code="user.input.info" /></h3>
-				<form:form action="/user/userInput" method="POST" modelAttribute="userInputModel" >
+				<form:form action="/user/userInput" method="POST" modelAttribute="userInputModel"  enctype="multipart/form-data">
 <%-- 						 	<spring:hasBindErrors name="userInputModel"> --%>
 <%-- 							 	<c:forEach var="error" items="${errors.allErrors}" > --%>
 <%-- 							 	<spring:message message="${error}"></spring:message> --%>
@@ -126,11 +126,27 @@
 						<div class="col-md-9">
 							<div class="input-group">
 								<div class="custom-file">
-							      <input type="file" class="custom-file-input" id="customFile">
-							      <label class="custom-file-label" for="customFile" data-browse="参照">Choose file</label>
+							      <input type="file" class="custom-file-input" name="userFile1" id="userFile1">
+							      <label class="custom-file-label" for="userFile1" data-browse="<spring:message code="common.button.browse"/>" data-message="<spring:message code='common.file.message'/>"><spring:message code="common.file.message"/></label>
 							    </div>
 								<div class="input-group-append">
-							        <button type="button" class="btn btn-outline-secondary reset">取消</button>
+							        <button type="button" class="btn btn-outline-secondary reset"><spring:message code="common.button.cancle"/></button>
+							    </div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="file" class="col-md-3 col-form-label">
+							<spring:message code="user.input.file"/>
+						</label>
+						<div class="col-md-9">
+							<div class="input-group">
+								<div class="custom-file">
+							      <input type="file" class="custom-file-input" name="userFile2" id="userFile2">
+							      <label class="custom-file-label" for="userFile2" data-browse="<spring:message code='common.button.browse'/>" data-message="<spring:message code='common.file.message'/>"><spring:message code="common.file.message"/></label>
+							    </div>
+								<div class="input-group-append">
+							        <button type="button" class="btn btn-outline-secondary reset"><spring:message code="common.button.cancle"/></button>
 							    </div>
 							</div>
 						</div>

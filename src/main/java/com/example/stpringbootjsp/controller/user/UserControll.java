@@ -1,8 +1,10 @@
 package com.example.stpringbootjsp.controller.user;
 
+import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,11 +15,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.stpringbootjsp.model.user.UserInputModel;
+import com.example.stpringbootjsp.service.file.FileService;
 
 @Controller
 @RequestMapping("/user")
 public class UserControll {
 
+	@Autowired
+	FileService fileService;
 	// 追加
 	//    @ModelAttribute
 	//    public TopModel setUpForm() {
@@ -36,17 +41,17 @@ public class UserControll {
 	//	}
 
 	@GetMapping("userList")
-	public String userList(Model model) {
+	public String userList(Model model) throws Exception {
 		return "user/userList";
 	}
 
 	@PostMapping("userList")
-	public String pUserList(Model model) {
+	public String pUserList(Model model) throws Exception {
 		return "user/userList";
 	}
 
 	@GetMapping("userInput")
-	public String userInput(@ModelAttribute("userInputModel") UserInputModel userInput, Model model) {
+	public String userInput(@ModelAttribute("userInputModel") UserInputModel userInput, Model model) throws Exception {
 		// 初期値設定
 		initInput(model);
 
@@ -55,13 +60,20 @@ public class UserControll {
 
 	@PostMapping("/userInput")
 	public String pUserInput(@ModelAttribute("userInputModel") @Validated UserInputModel userInput,
-			BindingResult result, Model model) {
-		//ポイント2
+			BindingResult result, Model model) throws Exception {
 		if (result.hasErrors()) {
 			// 初期画面フラグ
 			model.addAttribute("firstCheck", false);
 			// 画面遷移
 			return userInput(userInput, model);
+		}
+
+		if(!userInput.getUserFile1().isEmpty()) {
+			fileService.save(userInput.getUserFile1(), Paths.get("/uploads"));
+		}
+
+		if(!userInput.getUserFile2().isEmpty()) {
+			fileService.save(userInput.getUserFile2(), Paths.get("/uploads"));
 		}
 
 		// PRGパターンによりフォームデータの二重送信を防止
@@ -71,21 +83,21 @@ public class UserControll {
 	}
 
 	@PostMapping("update")
-	public String update(Model model) {
+	public String update(Model model) throws Exception {
 		return "user/userInput";
 	}
 
 	@PostMapping("delete")
-	public String delete(Model model) {
+	public String delete(Model model) throws Exception {
 		return "user/userList";
 	}
 
 	@PostMapping("detail")
-	public String detail(Model model) {
+	public String detail(Model model) throws Exception {
 		return "user/userDetail";
 	}
 
-	private void initInput(Model model) {
+	private void initInput(Model model) throws Exception {
 		Map<Integer, String> selectMap = new LinkedHashMap<Integer, String>();
 		selectMap.put(null, "--Please Select--");
 		selectMap.put(1, "JAVA");

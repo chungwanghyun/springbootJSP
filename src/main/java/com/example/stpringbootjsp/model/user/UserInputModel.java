@@ -24,5 +24,6 @@ public class UserInputModel implements Serializable {
 	private List<Integer> hobby;
 	private Integer gender;
 	private String memo;
-	 private List<MultipartFile> userFile;
+	private MultipartFile userFile1;
+	private MultipartFile userFile2;
 }

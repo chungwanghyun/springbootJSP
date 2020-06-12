@@ -1,11 +1,33 @@
 $(document).ready(function() {
-	$('.custom-file-input').on('change',function(){
+//	$('.custom-file-input').on('change',function(){
+//	    $(this).next('.custom-file-label').html($(this)[0].files[0].name);
+//	})
+//	//ファイルの取消
+//	$('.reset').click(function(){
+//	    $(this).parent().prev().children('.custom-file-label').html('ファイル選択...');
+//	    $('.custom-file-input').val('');
+//	})
+
+	$('.custom-file-input').on('change', handleFileSelect);
+	function handleFileSelect(evt) {
+	    var fileSize = $(this)[0].files[0].size;
 	    $(this).next('.custom-file-label').html($(this)[0].files[0].name);
-	})
+
+	    // 100MB制限
+	    if(fileSize > 100*1024*1024) {
+	    	// modal表示
+	    	$('fileSizeModal').modal('show');
+
+	    }
+	}
+
 	//ファイルの取消
 	$('.reset').click(function(){
-	    $(this).parent().prev().children('.custom-file-label').html('ファイル選択...');
-	    $('.custom-file-input').val('');
+		// modal表示
+		// 初期メッセージ
+		var message = $(this).parent().prev().children('.custom-file-label').data("message");
+	    $(this).parent().prev().children('.custom-file-label').html(message);
+	    $(this).parent().prev().children('.custom-file-input').val('');
 	})
 
 //	var targetElements = document.getElementsByClassName('is-valid');

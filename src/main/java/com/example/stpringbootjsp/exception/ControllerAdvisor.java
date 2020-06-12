@@ -2,6 +2,7 @@ package com.example.stpringbootjsp.exception;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
@@ -11,8 +12,18 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler  {
     @ExceptionHandler(value = Exception.class)
     public String handleDemoExceptionForGlobal(Exception e) {
 //        log.error(e.getMessage());
-        return "/error/error";
+        return "error/error";
     }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public String handleMaxSizeException(MaxUploadSizeExceededException e) {
+    	 return "error/error";
+    }
+
+//    @ExceptionHandler(MaxUploadSizeExceededException.class)
+//    public ResponseEntity<?> maxUploadSizeException(MaxUploadSizeExceededException e) {
+//        return ResponseEntity.badRequest().body("ファイルサイズエラー");
+//    }
 
     // すべての例外をキャッチする
     // どこにもキャッチされなかったらこれが呼ばれる
