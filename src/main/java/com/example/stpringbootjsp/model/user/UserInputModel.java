@@ -15,15 +15,17 @@ public class UserInputModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotEmpty(message = "Please enter your username")
+	@NotEmpty(message = "{validation.required}")
 	@Size(min = 0, max = 1, message = "{validation.max-length}")
 	private String id;
-	@NotEmpty(message = "Please enter your password")
+	@NotEmpty(message = "{validation.required}")
 	private String password;
 	private Integer favorite;
 	private List<Integer> hobby;
 	private Integer gender;
 	private String memo;
 	private MultipartFile userFile1;
+	private String userFileTemp1;
 	private MultipartFile userFile2;
+	private String userFileTemp2;
 }

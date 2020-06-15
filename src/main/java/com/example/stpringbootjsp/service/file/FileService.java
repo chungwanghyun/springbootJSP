@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +15,7 @@ public class FileService {
 	//	private final Path root = Paths.get("/uploads");
 
 	/**
-	 * フォルダー作成
+	 * ディレクトリー作成
 	 *
 	 * @throws Exception
 	 */
@@ -35,10 +36,36 @@ public class FileService {
 	 * @param file
 	 * @throws Exception
 	 */
-	public void save(MultipartFile file, Path path) throws Exception {
-		// StandardCopyOption.REPLACE_EXISTINGオプションを指定して、上書き保存
-		Files.copy(file.getInputStream(), path.resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING);
+	public boolean save(MultipartFile file, Path path) throws Exception {
+		boolean result = false;
+		try {
+			// StandardCopyOption.REPLACE_EXISTINGオプションを指定して、上書き保存
+			Files.copy(file.getInputStream(), path.resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING);
+			result = true;
+		} catch (IOException ex) {
+			throw new Exception(ex);
+		}
+		return result;
 	}
+
+	/**
+	 * ファイルを移動
+	 *
+	 * @param file
+	 * @throws Exception
+	 */
+	public boolean move(Path orgPath, Path targetPath) throws Exception {
+		boolean result = false;
+		try {
+			// StandardCopyOption.REPLACE_EXISTINGオプションを指定して、上書き保存
+			Files.move(orgPath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+			result = true;
+		} catch (IOException ex) {
+			throw new Exception(ex);
+		}
+		return result;
+	}
+
 
 	/**
 	 * ファイル削除
@@ -57,6 +84,17 @@ public class FileService {
 		return result;
 		//		FileSystemUtils.deleteRecursively(root.toFile());
 	}
+
+    public String saveTemporaryFile(MultipartFile file, Path path)
+        throws IOException {
+
+        String uploadTemporaryFileId = UUID.randomUUID().toString();
+//        File uploadTemporaryFile = new File(uploadTemporaryDirectory, uploadTemporaryFileId);
+
+        Files.copy(file.getInputStream(), path.resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING);
+
+        return uploadTemporaryFileId;
+    }
 
 	//	public Resource load(String filename) throws Exception  {
 	//		try {

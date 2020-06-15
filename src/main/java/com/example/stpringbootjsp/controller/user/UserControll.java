@@ -1,44 +1,40 @@
 package com.example.stpringbootjsp.controller.user;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.stpringbootjsp.constant.Constant;
 import com.example.stpringbootjsp.model.user.UserInputModel;
 import com.example.stpringbootjsp.service.file.FileService;
 
+//@Slf4j
 @Controller
 @RequestMapping("/user")
 public class UserControll {
 
 	@Autowired
 	FileService fileService;
-	// 追加
-	//    @ModelAttribute
-	//    public TopModel setUpForm() {
-	//        return new TopModel();
-	//    }
 
-	//    @ModelAttribute
-	//    public UserInputModel setupForm() {
-	//    	UserInputModel userInputModel = new UserInputModel();
-	//        return userInputModel;
-	//    }
-
-	@ModelAttribute
-	//	public UserInputModel init() {
-	//		return new UserInputModel();
-	//	}
+	@Autowired
+	private MessageSource messageSource;
 
 	@GetMapping("userList")
 	public String userList(Model model) throws Exception {
@@ -51,7 +47,8 @@ public class UserControll {
 	}
 
 	@GetMapping("userInput")
-	public String userInput(@ModelAttribute("userInputModel") UserInputModel userInput, Model model) throws Exception {
+	public String userInput(@ModelAttribute("userInputModel") UserInputModel userInput, Model model, Locale locale)
+			throws Exception {
 		// 初期値設定
 		initInput(model);
 
@@ -60,21 +57,61 @@ public class UserControll {
 
 	@PostMapping("/userInput")
 	public String pUserInput(@ModelAttribute("userInputModel") @Validated UserInputModel userInput,
-			BindingResult result, Model model) throws Exception {
+			BindingResult result, Model model, Locale locale) throws Exception {
+		// 入力チェック(Bean Validated用以外)
+		isValid(userInput, result, locale);
+
+		// 入力チェック結果判断(Bean Validated用)
 		if (result.hasErrors()) {
 			// 初期画面フラグ
 			model.addAttribute("firstCheck", false);
+
 			// 画面遷移
-			return userInput(userInput, model);
+			return userInput(userInput, model, locale);
 		}
 
-		if(!userInput.getUserFile1().isEmpty()) {
-			fileService.save(userInput.getUserFile1(), Paths.get("/uploads"));
+		// service
+		try {
+			if(userInput.getUserFileTemp1() != null && userInput.getUserFileTemp1().length() > 0) {
+				// ディレクトリー作成
+				fileService.makeDir(Paths.get(Constant.USER_PATH));
+
+				// Tempからファイルを移動させる
+				fileService.move(Paths.get(Constant.USER_TEMP_PATH + userInput.getUserFileTemp1()),
+								Paths.get(Constant.USER_PATH + userInput.getUserFileTemp1()));
+			} else {
+				// ディレクトリー作成
+				fileService.makeDir(Paths.get(Constant.USER_TEMP_PATH));
+
+				// ファイルを保存する
+				if (!userInput.getUserFile1().isEmpty()) {
+					fileService.save(userInput.getUserFile1(), Paths.get(Constant.USER_TEMP_PATH));
+				}
+			}
+
+			if(userInput.getUserFileTemp2() != null && userInput.getUserFileTemp2().length() > 0) {
+				// ディレクトリー作成
+				fileService.makeDir(Paths.get(Constant.USER_PATH));
+
+				// Tempからファイルを移動させる
+				fileService.move(Paths.get(Constant.USER_TEMP_PATH + userInput.getUserFileTemp2()),
+								Paths.get(Constant.USER_PATH + userInput.getUserFileTemp2()));
+			} else {
+				// ディレクトリー作成
+				fileService.makeDir(Paths.get(Constant.USER_TEMP_PATH));
+
+				// ファイルを保存する
+				if (!userInput.getUserFile2().isEmpty()) {
+					fileService.save(userInput.getUserFile2(), Paths.get(Constant.USER_TEMP_PATH));
+				}
+			}
+		} catch (IOException ex){
+			throw new Exception(ex);
+		} catch(Exception ex) {
+//			log.error(ex.getMessage());
+			throw new Exception(ex);
 		}
 
-		if(!userInput.getUserFile2().isEmpty()) {
-			fileService.save(userInput.getUserFile2(), Paths.get("/uploads"));
-		}
 
 		// PRGパターンによりフォームデータの二重送信を防止
 		//「POST」⇒「REDIRECT」⇒「GET」処理によってフォームデータの二重送信を防止する手法
@@ -122,7 +159,50 @@ public class UserControll {
 		if (model.getAttribute("firstCheck") == null) {
 			model.addAttribute("firstCheck", true);
 		}
+	}
 
+	@PostMapping("saveTempFile")
+	@ResponseBody
+	public boolean saveTempFile(@RequestParam("file") MultipartFile uploadfile, Model model) throws Exception {
+		boolean result = false;
+		// ディレクトリー作成
+		fileService.makeDir(Paths.get(Constant.USER_TEMP_PATH));
+		if (!uploadfile.isEmpty()) {
+			result = fileService.save(uploadfile, Paths.get(Constant.USER_TEMP_PATH));
+		}
+		return result;
+	}
+
+
+	/**
+	 * 入力チェック
+	 *
+	 * @param userInput
+	 * @param result
+	 * @param locale
+	 * @return
+	 */
+	private void isValid(UserInputModel userInput, BindingResult result, Locale locale) {
+
+		// Tempファイルチェック
+		if(userInput.getUserFileTemp1() == null || userInput.getUserFileTemp1().length() == 0) {
+			// ファイルチェック
+			if (userInput.getUserFile1().isEmpty()) {
+				String message = messageSource.getMessage("validation.required", new String[] { "userFile1" }, locale);
+				FieldError fieldError = new FieldError(result.getObjectName(), "userFile1", message);
+				result.addError(fieldError);
+			}
+		}
+
+		// Tempファイルチェック
+		if(userInput.getUserFileTemp2() == null || userInput.getUserFileTemp2().length() == 0) {
+			// ファイルチェック
+			if (userInput.getUserFile2().isEmpty()) {
+				String message = messageSource.getMessage("validation.required", new String[] { "userFile2" }, locale);
+				FieldError fieldError = new FieldError(result.getObjectName(), "userFile2", message);
+				result.addError(fieldError);
+			}
+		}
 	}
 
 }

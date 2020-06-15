@@ -121,36 +121,52 @@
 
 					<div class="form-group row">
 						<label for="file" class="col-md-3 col-form-label">
-							<spring:message code="user.input.file"/>
+							<spring:message code="user.input.file"/><span class="badge badge-warning">必須</span>
 						</label>
 						<div class="col-md-9">
 							<div class="input-group">
-								<div class="custom-file">
-							      <input type="file" class="custom-file-input" name="userFile1" id="userFile1">
-							      <label class="custom-file-label" for="userFile1" data-browse="<spring:message code="common.button.browse"/>" data-message="<spring:message code='common.file.message'/>"><spring:message code="common.file.message"/></label>
-							    </div>
-								<div class="input-group-append">
-							        <button type="button" class="btn btn-outline-secondary reset"><spring:message code="common.button.cancle"/></button>
-							    </div>
+<!-- 								<div class="custom-file"> -->
+								<spring:bind path="userFile1">
+									<input type="file" class="custom-file-input ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }" name="userFile1" id="userFile1">
+									<label class="custom-file-label" for="userFile1" data-browse="<spring:message code="common.button.browse"/>" data-message="<spring:message code='common.file.message'/>">
+										<spring:message code="common.file.message"/>
+									</label>
+									<div class="invalid-feedback"><form:errors path="userFile1"/></div>
+							    </spring:bind>
+							    <form:hidden name="userFileTemp1" path="userFileTemp1" id="userFileTemp1" />
+<!-- 							    </div> -->
+<!-- 								<div class="input-group-append"> -->
+<%-- 							        <button type="button" class="btn btn-outline-secondary reset"><spring:message code="common.button.cancle"/></button> --%>
+<!-- 							    </div> -->
+<%-- 							    <div class="invalid-feedback"><form:errors path="userFile1"/></div> --%>
 							</div>
+
 						</div>
 					</div>
 					<div class="form-group row">
 						<label for="file" class="col-md-3 col-form-label">
-							<spring:message code="user.input.file"/>
+							<spring:message code="user.input.file"/><span class="badge badge-warning">必須</span>
 						</label>
 						<div class="col-md-9">
 							<div class="input-group">
-								<div class="custom-file">
-							      <input type="file" class="custom-file-input" name="userFile2" id="userFile2">
-							      <label class="custom-file-label" for="userFile2" data-browse="<spring:message code='common.button.browse'/>" data-message="<spring:message code='common.file.message'/>"><spring:message code="common.file.message"/></label>
-							    </div>
-								<div class="input-group-append">
-							        <button type="button" class="btn btn-outline-secondary reset"><spring:message code="common.button.cancle"/></button>
-							    </div>
+<!-- 								<div class="custom-file"> -->
+								<spring:bind path="userFile2">
+							      <input type="file" class="custom-file-input ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }"  name="userFile2" id="userFile2">
+									<label class="custom-file-label" for="userFile2" data-browse="<spring:message code='common.button.browse'/>" data-message="<spring:message code='common.file.message'/>">
+										<spring:message code="common.file.message"/>
+							      	</label>
+							      	<div class="invalid-feedback"><form:errors path="userFile2"/></div>
+								</spring:bind>
+								<form:hidden name="userFileTemp2" path="userFileTemp2" id="userFileTemp2" />
+<!-- 							    </div> -->
+<!-- 								<div class="input-group-append"> -->
+<%-- 							        <button type="button" class="btn btn-outline-secondary reset"><spring:message code="common.button.cancle"/></button> --%>
+<!-- 							    </div> -->
 							</div>
+<%-- 							<form:errors class="invalid-feedback" path="userFile2"/> --%>
 						</div>
 					</div>
+
 					<div class="form-group row justify-content-end">
 						 <div class="col-md-9">
 						 <form:button  class="btn btn-primary" type="submit"><spring:message code="common.button.back"/> </form:button>
