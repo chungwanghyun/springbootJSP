@@ -1,4 +1,8 @@
 $(document).ready(function() {
+	 $('#datetimepicker1').datetimepicker({
+		 format: 'L'
+	 });
+
 	$('[id^="userFileTemp"]').each(function(i, elem) {
 		if($(this).val() != '') {
 			$(this).prev().prev('.custom-file-label').html($(this).val());

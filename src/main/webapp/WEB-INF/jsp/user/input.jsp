@@ -37,7 +37,7 @@
 		<div class="py-3">
 			<div class="container">
 				<h3><spring:message code="user.input.info" /></h3>
-				<form:form action="/user/userInput" method="POST" modelAttribute="userInputModel"  enctype="multipart/form-data">
+				<form:form action="/user/input" method="POST" modelAttribute="userInputModel"  enctype="multipart/form-data">
 <%-- 						 	<spring:hasBindErrors name="userInputModel"> --%>
 <%-- 							 	<c:forEach var="error" items="${errors.allErrors}" > --%>
 <%-- 							 	<spring:message message="${error}"></spring:message> --%>
@@ -109,6 +109,20 @@
 						</c:forEach>
 						</div>
 					</div>
+
+					<div class="form-group row">
+						<label for="birthday" class="col-md-3 col-form-label">
+							<spring:message code="user.input.gender"/>
+						</label>
+				        <div class="col-md-9">
+			                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+			                    <form:input path="birthday" class="form-control form-control-sm datetimepicker-input" data-toggle="datetimepicker" data-target="#datetimepicker1"/>
+			                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+			                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+			                    </div>
+			                </div>
+				        </div>
+				    </div>
 
 					<div class="form-group row">
 						<label for="memo" class="col-md-3 col-form-label">

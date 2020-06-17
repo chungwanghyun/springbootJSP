@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.stpringbootjsp.constant.Constant;
 import com.example.stpringbootjsp.model.user.UserInputModel;
 import com.example.stpringbootjsp.service.file.FileService;
+import com.example.stpringbootjsp.service.user.UserService;
 
 //@Slf4j
 @Controller
@@ -34,29 +35,32 @@ public class UserControll {
 	FileService fileService;
 
 	@Autowired
+	UserService userService;
+
+	@Autowired
 	private MessageSource messageSource;
 
-	@GetMapping("userList")
-	public String userList(Model model) throws Exception {
-		return "user/userList";
+	@GetMapping("list")
+	public String list(Model model) throws Exception {
+		return "user/list";
 	}
 
-	@PostMapping("userList")
-	public String pUserList(Model model) throws Exception {
-		return "user/userList";
+	@PostMapping("list")
+	public String plist(Model model) throws Exception {
+		return "user/list";
 	}
 
-	@GetMapping("userInput")
-	public String userInput(@ModelAttribute("userInputModel") UserInputModel userInput, Model model, Locale locale)
+	@GetMapping("input")
+	public String input(@ModelAttribute("userInputModel") UserInputModel userInput, Model model, Locale locale)
 			throws Exception {
 		// 初期値設定
 		initInput(model);
 
-		return "user/userInput";
+		return "user/input";
 	}
 
-	@PostMapping("/userInput")
-	public String pUserInput(@ModelAttribute("userInputModel") @Validated UserInputModel userInput,
+	@PostMapping("input")
+	public String pInput(@ModelAttribute("userInputModel") @Validated UserInputModel userInput,
 			BindingResult result, Model model, Locale locale) throws Exception {
 		// 入力チェック(Bean Validated用以外)
 		isValid(userInput, result, locale);
@@ -65,10 +69,12 @@ public class UserControll {
 		if (result.hasErrors()) {
 			// 初期画面フラグ
 			model.addAttribute("firstCheck", false);
-
 			// 画面遷移
-			return userInput(userInput, model, locale);
+			return input(userInput, model, locale);
 		}
+
+
+		userService.insertUser(userInput);
 
 		// service
 		try {
@@ -115,23 +121,23 @@ public class UserControll {
 
 		// PRGパターンによりフォームデータの二重送信を防止
 		//「POST」⇒「REDIRECT」⇒「GET」処理によってフォームデータの二重送信を防止する手法
-		return "redirect:/user/userList";
+		return "redirect:/user/list";
 		//        return "user/userList";
 	}
 
 	@PostMapping("update")
 	public String update(Model model) throws Exception {
-		return "user/userInput";
+		return "user/input";
 	}
 
 	@PostMapping("delete")
 	public String delete(Model model) throws Exception {
-		return "user/userList";
+		return "user/list";
 	}
 
 	@PostMapping("detail")
 	public String detail(Model model) throws Exception {
-		return "user/userDetail";
+		return "user/detail";
 	}
 
 	private void initInput(Model model) throws Exception {
@@ -180,7 +186,6 @@ public class UserControll {
 	 * @param userInput
 	 * @param result
 	 * @param locale
-	 * @return
 	 */
 	private void isValid(UserInputModel userInput, BindingResult result, Locale locale) {
 

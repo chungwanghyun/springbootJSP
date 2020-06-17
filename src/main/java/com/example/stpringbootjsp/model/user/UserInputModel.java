@@ -1,6 +1,7 @@
 package com.example.stpringbootjsp.model.user;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
@@ -16,16 +17,18 @@ public class UserInputModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@NotEmpty(message = "{validation.required}")
-	@Size(min = 0, max = 1, message = "{validation.max-length}")
+	@Size(min = 0, max = 50, message = "{validation.max-length}")
 	private String id;
 	@NotEmpty(message = "{validation.required}")
+	@Size(min = 0, max = 50, message = "{validation.max-length}")
 	private String password;
 	private Integer favorite;
-	private List<Integer> hobby;
+	private List<String> hobby;
 	private Integer gender;
 	private String memo;
 	private MultipartFile userFile1;
 	private String userFileTemp1;
 	private MultipartFile userFile2;
 	private String userFileTemp2;
+	private Date birthday;
 }

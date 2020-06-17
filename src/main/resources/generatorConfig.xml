@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+    PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+  <context id="mydb"  targetRuntime="MyBatis3">
+        <property name="autoDelimitKeyWords" value="true" />
+        <property name="beginningDelimiter" value="`" />
+        <property name="endingDelimiter" value="`" />
+            <commentGenerator>
+            <property name="suppressDate" value="false" />
+        </commentGenerator>
+        <jdbcConnection
+            connectionURL="jdbc:mysql://192.168.0.11:3306/springboot"
+            driverClass="com.mysql.cj.jdbc.Driver"
+            password="khchun1"
+            userId="khchun1" />
+        <javaModelGenerator
+            targetPackage="com.example.stpringbootjsp.model.user"
+            targetProject="springbootJSP/src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <sqlMapGenerator
+            targetPackage="com.example.stpringbootjsp.mapper.user"
+            targetProject="springbootJSP/src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+        <javaClientGenerator
+            targetPackage="com.example.stpringbootjsp.mapper.user"
+            targetProject="springbootJSP/src/main/java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+        <table tableName="user" domainObjectName="User"
+            mapperName="UserMapper"
+            enableInsert="true"
+            enableSelectByPrimaryKey="true"
+            enableSelectByExample="true"
+            enableUpdateByPrimaryKey="true"
+            enableUpdateByExample="true"
+            enableDeleteByPrimaryKey="true"
+            enableDeleteByExample="true"
+            enableCountByExample="true"
+            selectByExampleQueryId="true"
+            modelType="flat" >
+            <columnRenamingRule searchString="^class$" replaceString="clazz"/>
+            <columnOverride column="id" delimitedColumnName="true"/>
+            <columnOverride column="name" delimitedColumnName="true"/>
+        </table>
+    </context>
+</generatorConfiguration>
