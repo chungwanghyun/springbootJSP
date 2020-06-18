@@ -60,35 +60,53 @@
 						 </label>
 						 <div class="col-md-9">
 						 	<spring:bind path="password">
-						 	<form:input path="password" class="form-control form-control-sm ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }" placeholder="Password"/>
-						 	<div class="invalid-feedback"><form:errors path="password"/></div>
+							 	<form:input path="password" class="form-control form-control-sm ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }" placeholder="Password"/>
+							 	<div class="invalid-feedback"><form:errors path="password"/></div>
+						 	</spring:bind>
+						 </div>
+					</div>
+					<div class="form-group row">
+						<label for="money" class="col-md-3 col-form-label">
+							<spring:message code="user.input.money"/><span class="badge badge-warning">必須</span>
+						 </label>
+						 <div class="col-md-9">
+						 	<spring:bind path="money">
+							 	<form:input path="money" class="form-control form-control-sm ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }" placeholder="Money"/>
+							 	<div class="invalid-feedback"><form:errors path="money"/></div>
 						 	</spring:bind>
 						 </div>
 					</div>
 					<div class="form-group row">
 						<label for="favorite" class="col-md-3 col-form-label">
-							<spring:message code="user.input.favorite"/>
+							<spring:message code="user.input.favorite"/><span class="badge badge-warning">必須</span>
 						 </label>
 						 <div class="col-md-9">
-						 	<form:select class="form-control form-control-sm" path="favorite" items="${favoriteList}"/>
+						 <spring:bind path="favorite">
+						 	<form:select class="form-control form-control-sm ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }" path="favorite" items="${favoriteList}"/>
 
 <%-- 						 	<form:select path="book"> --%>
 <%-- 							    <form:option value=null label="--Please Select--"/> --%>
 <%-- 							    <form:options items="${hobbySelectMap}"/> --%>
 <%-- 							</form:select> --%>
+							<div class="invalid-feedback"><form:errors path="favorite"/></div>
+							</spring:bind>
 						 </div>
 					</div>
 					<div class="form-group row">
 						<label for="hobby" class="col-md-3 col-form-label">
-							<spring:message code="user.input.hobby"/>
+							<spring:message code="user.input.hobby"/><span class="badge badge-warning">必須</span>
 						</label>
 						<div class="col-md-9">
 						<c:forEach var="obj" items="${hobbyList}" varStatus="status">
-							<div class="form-check form-check-inline">
+							<div class=" form-check form-check-inline">
 								<form:checkbox path="hobby" class="form-check-input" value="${obj.key}"/>
 								<label for="hobby${status.index+1}" class="form-check-label" >${obj.value}</label>
 							</div>
 						</c:forEach>
+						<spring:bind path="hobby">
+							<div style="display:none;" class="form-control form-control-sm  ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }"></div>
+							<div class="invalid-feedback"><form:errors path="hobby"/></div>
+						</spring:bind>
 <%-- 							<form:checkboxes items="${hobbyList}" path="hobby" class=""/> --%>
 <%-- 							Bird watching: <form:checkbox path="hobby" value="1"/> --%>
 <%-- 							Astronomy: <form:checkbox path="hobby" value="2"/> --%>
@@ -97,7 +115,7 @@
 					</div>
 					<div class="form-group row">
 						<label for="gender" class="col-md-3 col-form-label">
-							<spring:message code="user.input.gender"/>
+							<spring:message code="user.input.gender"/><span class="badge badge-warning">必須</span>
 						</label>
 						<div class="col-md-9">
 <%-- 							<form:radiobuttons items="${genderList}" path="gender" class="" /> --%>
@@ -107,19 +125,26 @@
 								<label for="gender${status.index+1}" class="form-check-label">${obj.value}</label>
 							</div>
 						</c:forEach>
+						<spring:bind path="gender">
+							<div style="display:none;" class="form-control form-control-sm  ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }"></div>
+							<div class="invalid-feedback"><form:errors path="gender"/></div>
+						</spring:bind>
 						</div>
 					</div>
 
 					<div class="form-group row">
 						<label for="birthday" class="col-md-3 col-form-label">
-							<spring:message code="user.input.gender"/>
+							<spring:message code="user.input.birthday"/><span class="badge badge-warning">必須</span>
 						</label>
 				        <div class="col-md-9">
 			                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-			                    <form:input path="birthday" class="form-control form-control-sm datetimepicker-input" data-toggle="datetimepicker" data-target="#datetimepicker1"/>
-			                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-			                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-			                    </div>
+				                <spring:bind path="birthday">
+				                    <form:input path="birthday" class="form-control form-control-sm datetimepicker-input ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }" data-toggle="datetimepicker" data-target="#datetimepicker1"/>
+				                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+				                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+				                    </div>
+				                    <div class="invalid-feedback"><form:errors path="birthday"/></div>
+			                     </spring:bind>
 			                </div>
 				        </div>
 				    </div>

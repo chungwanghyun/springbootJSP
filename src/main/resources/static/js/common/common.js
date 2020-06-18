@@ -19,10 +19,14 @@
 //})();
 
 function languageChange(lang) {
-	var path = location.pathname;
-	var action = path;
-	var action = action + '?lang=' + lang;
-	alert(action);
+//	var path = location.pathname;
+//	var action = path;
+//	var action = action + '?lang=' + lang;
+////	alert(action);
+//	$('form').attr('action', action);
+//	$('form').submit();
+
+	var action = '/top?lang=' + lang;
 	$('form').attr('action', action);
 	$('form').submit();
 

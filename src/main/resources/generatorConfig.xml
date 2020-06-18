@@ -44,9 +44,9 @@
             enableCountByExample="true"
             selectByExampleQueryId="true"
             modelType="flat" >
-            <columnRenamingRule searchString="^class$" replaceString="clazz"/>
-            <columnOverride column="id" delimitedColumnName="true"/>
-            <columnOverride column="name" delimitedColumnName="true"/>
+<!--             <columnRenamingRule searchString="^class$" replaceString="clazz"/> -->
+<!--             <columnOverride column="id" delimitedColumnName="true"/> -->
+<!--             <columnOverride column="name" delimitedColumnName="true"/> -->
         </table>
     </context>
 </generatorConfiguration>

@@ -73,51 +73,15 @@ public class UserControll {
 			return input(userInput, model, locale);
 		}
 
-
-		userService.insertUser(userInput);
-
-		// service
 		try {
-			if(userInput.getUserFileTemp1() != null && userInput.getUserFileTemp1().length() > 0) {
-				// ディレクトリー作成
-				fileService.makeDir(Paths.get(Constant.USER_PATH));
-
-				// Tempからファイルを移動させる
-				fileService.move(Paths.get(Constant.USER_TEMP_PATH + userInput.getUserFileTemp1()),
-								Paths.get(Constant.USER_PATH + userInput.getUserFileTemp1()));
-			} else {
-				// ディレクトリー作成
-				fileService.makeDir(Paths.get(Constant.USER_TEMP_PATH));
-
-				// ファイルを保存する
-				if (!userInput.getUserFile1().isEmpty()) {
-					fileService.save(userInput.getUserFile1(), Paths.get(Constant.USER_TEMP_PATH));
-				}
-			}
-
-			if(userInput.getUserFileTemp2() != null && userInput.getUserFileTemp2().length() > 0) {
-				// ディレクトリー作成
-				fileService.makeDir(Paths.get(Constant.USER_PATH));
-
-				// Tempからファイルを移動させる
-				fileService.move(Paths.get(Constant.USER_TEMP_PATH + userInput.getUserFileTemp2()),
-								Paths.get(Constant.USER_PATH + userInput.getUserFileTemp2()));
-			} else {
-				// ディレクトリー作成
-				fileService.makeDir(Paths.get(Constant.USER_TEMP_PATH));
-
-				// ファイルを保存する
-				if (!userInput.getUserFile2().isEmpty()) {
-					fileService.save(userInput.getUserFile2(), Paths.get(Constant.USER_TEMP_PATH));
-				}
-			}
+			// ユーザー登録
+			userService.insertUser(userInput);
 		} catch (IOException ex){
 			throw new Exception(ex);
 		} catch(Exception ex) {
 //			log.error(ex.getMessage());
 			throw new Exception(ex);
 		}
-
 
 		// PRGパターンによりフォームデータの二重送信を防止
 		//「POST」⇒「REDIRECT」⇒「GET」処理によってフォームデータの二重送信を防止する手法

@@ -2,8 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.stpringbootjsp.mapper.user.UserMapper">
 	<insert id="insertUser" parameterType="com.example.stpringbootjsp.model.user.User">
-		insert into user (id, password)
-		values (#{id,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+		insert into user (seq, id, password,
+	      favorite, hobby, gender,
+	      file_seq_1, file_seq_2, birthday,
+	      c_user, u_user,
+	      memo)
+	    values (#{seq,jdbcType=BIGINT}, #{id,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+	      #{favorite,jdbcType=INTEGER}, #{hobby,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER},
+	      #{fileSeq1,jdbcType=BIGINT}, #{fileSeq2,jdbcType=BIGINT}, #{birthday,jdbcType=DATE},
+	      #{cUser,jdbcType=VARCHAR}, #{uUser,jdbcType=VARCHAR},
+	      #{memo,jdbcType=LONGVARCHAR})
 	</insert>
 
 	<delete id="deleteUser" parameterType="com.example.stpringbootjsp.model.user.User">
@@ -12,25 +20,41 @@
 
 
 	<update id="updateUser" parameterType="map">
-    	update user
-		set id = #{record.id,jdbcType=VARCHAR},
-		password = #{record.password,jdbcType=VARCHAR}
+	    update user
+	    set id = #{id,jdbcType=VARCHAR},
+	      password = #{password,jdbcType=VARCHAR},
+	      favorite = #{favorite,jdbcType=INTEGER},
+	      hobby = #{hobby,jdbcType=VARCHAR},
+	      gender = #{gender,jdbcType=INTEGER},
+	      file_seq_1 = #{fileSeq1,jdbcType=BIGINT},
+	      file_seq_2 = #{fileSeq2,jdbcType=BIGINT},
+	      birthday = #{birthday,jdbcType=DATE},
+	      u_user = #{uUser,jdbcType=VARCHAR},
+	      memo = #{memo,jdbcType=LONGVARCHAR}
+	    where seq = #{seq,jdbcType=BIGINT}
 	</update>
 
-	<delete id="deleteUser" parameterType="com.example.stpringbootjsp.model.user.User">
-		delete from user
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-	</delete>
-
 	<sql id="Base_Column_List">
- 		id, password
+ 		 seq, id, password, favorite, hobby, gender, file_seq_1, file_seq_2, birthday, c_datetime,
+    	c_user, u_datetime, u_user, d_datetime, d_user
 	</sql>
 
 	<resultMap id="BaseResultMap" type="com.example.stpringbootjsp.model.user.User">
-		<result column="id" jdbcType="VARCHAR" property="id" />
-		<result column="password" jdbcType="VARCHAR" property="password" />
+		<id column="seq" jdbcType="BIGINT" property="seq" />
+	    <result column="id" jdbcType="VARCHAR" property="id" />
+	    <result column="password" jdbcType="VARCHAR" property="password" />
+	    <result column="favorite" jdbcType="INTEGER" property="favorite" />
+	    <result column="hobby" jdbcType="VARCHAR" property="hobby" />
+	    <result column="gender" jdbcType="INTEGER" property="gender" />
+	    <result column="file_seq_1" jdbcType="BIGINT" property="fileSeq1" />
+	    <result column="file_seq_2" jdbcType="BIGINT" property="fileSeq2" />
+	    <result column="birthday" jdbcType="DATE" property="birthday" />
+	    <result column="c_datetime" jdbcType="TIMESTAMP" property="cDatetime" />
+	    <result column="c_user" jdbcType="VARCHAR" property="cUser" />
+	    <result column="u_datetime" jdbcType="TIMESTAMP" property="uDatetime" />
+	    <result column="u_user" jdbcType="VARCHAR" property="uUser" />
+	    <result column="d_datetime" jdbcType="TIMESTAMP" property="dDatetime" />
+	    <result column="d_user" jdbcType="VARCHAR" property="dUser" />
 	</resultMap>
 
 	<select id="selectUserList" parameterType="com.example.stpringbootjsp.model.user.User" resultMap="BaseResultMap">
