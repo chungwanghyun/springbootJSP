@@ -28,6 +28,7 @@ public class UserService {
 		// オブジェクトコピー
 		User user = new User();
 		BeanUtils.copyProperties(userInputModelParam, user);
+		// Dateデータ型変換
 		user.setBirthday(Util.getDateFromString(Constant.DATE_FORMAT_1, userInputModelParam.getBirthday()));
 		user.setCUser(user.getId());
 		user.setUUser(user.getId());

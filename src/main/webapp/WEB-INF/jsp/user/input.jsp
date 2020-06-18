@@ -166,7 +166,7 @@
 							<div class="input-group">
 <!-- 								<div class="custom-file"> -->
 								<spring:bind path="userFile1">
-									<input type="file" class="custom-file-input ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }" name="userFile1" id="userFile1">
+									<input type="file" class="custom-file-input  form-control-sm ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }" name="userFile1" id="userFile1">
 									<label class="custom-file-label" for="userFile1" data-browse="<spring:message code="common.button.browse"/>" data-message="<spring:message code='common.file.message'/>">
 										<spring:message code="common.file.message"/>
 									</label>
@@ -190,7 +190,7 @@
 							<div class="input-group">
 <!-- 								<div class="custom-file"> -->
 								<spring:bind path="userFile2">
-							      <input type="file" class="custom-file-input ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }"  name="userFile2" id="userFile2">
+							      <input type="file" class="custom-file-input  form-control-sm ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }"  name="userFile2" id="userFile2">
 									<label class="custom-file-label" for="userFile2" data-browse="<spring:message code='common.button.browse'/>" data-message="<spring:message code='common.file.message'/>">
 										<spring:message code="common.file.message"/>
 							      	</label>
