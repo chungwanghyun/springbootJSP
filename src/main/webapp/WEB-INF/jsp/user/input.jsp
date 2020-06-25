@@ -35,6 +35,7 @@
 			<h3><spring:message code="user.input.title" /></h3>
 			<p>ユーザーを登録してください。</p>
 			<p>ユーザーを登録してください。</p>
+			<p>ユーザーを登録してください。</p>
 		</div>
 		<div class="py-3">
 			<div class="container">
