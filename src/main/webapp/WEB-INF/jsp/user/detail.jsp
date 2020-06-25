@@ -17,8 +17,7 @@
 	<!-- /ヘッダー -->
 	<nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
 		<div class="container">
-			<a class="navbar-brand" href="/"><spring:message
-					code="coffee.title" /></a>
+			<a class="navbar-brand" href="/"><spring:message code="coffee.title" /></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbar-content" aria-controls="navbar-content"
 				aria-expanded="false" aria-label="Toggle navigation">
