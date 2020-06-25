@@ -22,15 +22,27 @@
 	</nav>
 	<!-- メイン -->
 	<main>
+
 		<!-- 検索条件 -->
 		<div class="py-4">
-			<section id="search">
+			<section id="searchS">
 				<div class="container">
-					<div class="row">
-						<div class="col-12">
-							<a class="btn btn-primary" href="/user/input" role="button"><spring:message code="common.button.input"/></a>
+					<form:form action="/user/list" method="POST" modelAttribute="userListModel">
+						<div class="form-group row">
+							<label for="id" class="col-md-3 col-form-label">
+								<spring:message code="user.input.id"/><span class="badge badge-warning">必須</span>
+							 </label>
+							 <div class="col-md-9">
+							 	<form:input path="id" class="form-control form-control-sm" placeholder="Id" />
+							 </div>
 						</div>
+						<button type="button" class="btn btn-primary" id="search"><spring:message code="common.button.search"/></button>
+					<div class="row">
+					<div class="col-12">
+						<a class="btn btn-primary" href="/user/input" role="button"><spring:message code="common.button.input"/></a>
 					</div>
+					</div>
+					</form:form>
 				</div>
 			</section>
 		</div>
@@ -70,25 +82,25 @@
 								<nav aria-label="ページ送りの実例">
 								  <ul class="pagination justify-content-end">
 									<li class="page-item ${userList.number + 1 == 1 ? 'disabled': ''} ">
-								      <a class="page-link" href="/user/list?page=1" aria-label="prev">
+								      <a class="page-link" href="/user/paging?page=1" aria-label="prev">
 								       <span aria-hidden="true">&lt;&lt;</span>
 								      </a>
 									</li>
 									<li class="page-item ${userList.number + 1 == 1 ? 'disabled': ''} ">
-								      <a class="page-link" href="/user/list?page=${userList.number}" aria-label="prev">
+								      <a class="page-link" href="/user/paging?page=${userList.number}" aria-label="prev">
 								       <span aria-hidden="true">&lt;</span>
 								      </a>
 									</li>
 								  	<c:forEach var="pageNumber" items="${pageNumbers}" varStatus="status">
-								  		<li class="page-item ${pageNumber == userList.number + 1 ? 'active': ''} "><a class="page-link " href="/user/list?page=${pageNumber}">${pageNumber}</a></li>
+								  		<li class="page-item ${pageNumber == userList.number + 1 ? 'active': ''} "><a class="page-link " href="/user/paging?page=${pageNumber}">${pageNumber}</a></li>
 								  	</c:forEach>
 								  	<li class="page-item ${userList.number + 1 == userList.totalPages ? 'disabled': ''} ">
-								      <a class="page-link" href="/user/list?page=${userList.number + 2}" aria-label="next">
+								      <a class="page-link" href="/user/paging?page=${userList.number + 2}" aria-label="next">
 								       <span aria-hidden="true">&gt;</span>
 								      </a>
 									</li>
 								  	<li class="page-item ${userList.number + 1 == userList.totalPages ? 'disabled': ''} ">
-								      <a class="page-link" href="/user/list?page=${userList.totalPages}" aria-label="next">
+								      <a class="page-link" href="/user/paging?page=${userList.totalPages}" aria-label="next">
 								       <span aria-hidden="true">&gt;&gt;</span>
 								      </a>
 									</li>
@@ -122,6 +134,7 @@
 			        </div>
 			</section>
 		</div>
+
 	</main>
 </body>
 </html>

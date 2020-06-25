@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -48,15 +50,28 @@ public class UserControll {
 	@Autowired
 	private MessageSource messageSource;
 
-	@GetMapping("list")
-	public String list(@ModelAttribute("userListModel") UserListModel userListModel,
-			@RequestParam("page") Optional<Integer> page,
-			@RequestParam("size") Optional<Integer> size, Model model) throws Exception {
-		int currentPage = page.orElse(Constant.PAGE_COUNT_1);
-		int pageSize = size.orElse(1);
+	 @Autowired
+    HttpSession session;
 
+	@GetMapping("list")
+	public String list(Model model) throws Exception {
+		// 検索
+		return search(new UserListModel(), Optional.ofNullable(null), Optional.ofNullable(null), model);
+	}
+
+	@PostMapping("search")
+	public String search(@ModelAttribute("userListModel") UserListModel userListModel,
+						Optional<Integer> page, Optional<Integer> size, Model model) throws Exception {
+		// 検索条件保存
+		session.setAttribute("userListModel", userListModel);
+
+		int currentPage = page.orElse(Constant.PAGE_COUNT_1);
+		int pageSize = size.orElse(2);
+
+		// ページリスト取得
 		Page<UserList> userList = userService.list(userListModel, PageRequest.of(currentPage - 1, pageSize));
 
+		// ページ数設定
 		int totalPages = userList.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -65,16 +80,19 @@ public class UserControll {
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
-		// PageRequest(int page, int size, Sort sort);
+        model.addAttribute("userListModel", userListModel);
 		model.addAttribute("userList", userList);
 		return "user/list";
 	}
 
-	@PostMapping("list")
-	public String plist(Model model, @RequestParam("page") Optional<Integer> page,
-			@RequestParam("size") Optional<Integer> size) throws Exception {
-
-		return "user/list";
+	@GetMapping("paging")
+	public String plist(@RequestParam("page") Optional<Integer> page,
+						@RequestParam("size") Optional<Integer> size,
+						Model model) throws Exception {
+		// 検索条件呼び出し
+		UserListModel form = (UserListModel)session.getAttribute("userListModel");
+		// 検索
+		return search(form, page, size, model);
 	}
 
 	@GetMapping("input")
