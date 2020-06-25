@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.example.stpringbootjsp.model.user.User;
 import com.example.stpringbootjsp.model.user.UserList;
-import com.example.stpringbootjsp.model.user.UserListModel;
 
 @Mapper
 public interface UserMapper {
@@ -17,8 +16,8 @@ public interface UserMapper {
 
     int deleteUser(User userParam);
 
-    List<UserList> listUser(UserListModel userListModel);
+    List<UserList> listUser(UserList userList);
 
-    long listUserCount(UserListModel userListModel);
+    long listUserCount(UserList userList);
 
 }

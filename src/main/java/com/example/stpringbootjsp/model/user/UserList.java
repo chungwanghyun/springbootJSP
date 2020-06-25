@@ -1,9 +1,13 @@
 package com.example.stpringbootjsp.model.user;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class UserList extends User {
 
+	private int limitCount;
+	private int offsetCount;
 
 }

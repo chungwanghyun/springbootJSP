@@ -57,19 +57,32 @@
 	    <result column="d_user" jdbcType="VARCHAR" property="dUser" />
 	</resultMap>
 
-	<select id="listUser" parameterType="com.example.stpringbootjsp.model.user.UserListModel" resultMap="BaseResultMap">
+	<select id="listUser" parameterType="com.example.stpringbootjsp.model.user.UserListForm" resultMap="BaseResultMap">
 		select
 			<include refid="Base_Column_List" />
 		from
 			user
 		where
 			d_datetime is null
-		limit #{maxCount} offset #{minCount}
+		<if test="id != null and id != ''">
+            and id like '%${id}%'
+        </if>
+<!--         <if test="usersSeq != null and usersSeq != ''"> -->
+<!--             and a.users_seq = #{usersSeq} -->
+<!--         </if> -->
+		limit #{limitCount} offset #{offsetCount}
     </select>
 
 	<select id="listUserCount" parameterType="com.example.stpringbootjsp.model.user.User" resultType="java.lang.Long">
-		select count(*) from user
+		select
+			count(*)
+		from
+			user
+		where
+			d_datetime is null
+		<if test="id != null and id != ''">
+            and id like '%${id}%'
+        </if>
 	</select>
-
 
 </mapper>

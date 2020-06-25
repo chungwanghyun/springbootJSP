@@ -38,7 +38,7 @@
 		<div class="py-3">
 			<div class="container">
 				<h3><spring:message code="user.input.info" /></h3>
-				<form:form action="/user/input" method="POST" modelAttribute="userInputModel"  enctype="multipart/form-data">
+				<form:form action="/user/input" method="POST" modelAttribute="userInputForm"  enctype="multipart/form-data">
 <%-- 						 	<spring:hasBindErrors name="userInputModel"> --%>
 <%-- 							 	<c:forEach var="error" items="${errors.allErrors}" > --%>
 <%-- 							 	<spring:message message="${error}"></spring:message> --%>

@@ -27,7 +27,7 @@
 		<div class="py-4">
 			<section id="searchS">
 				<div class="container">
-					<form:form action="/user/list" method="POST" modelAttribute="userListModel">
+					<form:form action="/user/list" method="POST" modelAttribute="userListForm">
 						<div class="form-group row">
 							<label for="id" class="col-md-3 col-form-label">
 								<spring:message code="user.input.id"/><span class="badge badge-warning">必須</span>
@@ -63,19 +63,26 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="obj" items="${userList.content}" varStatus="status">
+									<c:if test="${userList.totalElements > 0}">
+										<c:forEach var="obj" items="${userList.content}" varStatus="status">
+											<tr>
+												<td>${status.index+1}</td>
+												<td>${obj.id}</td>
+												<td>${obj.favorite}</td>
+												<td>${obj.hobby}</td>
+												<td class="d-flex justify-content-end">
+												<div class="px-1"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal01"><spring:message code="common.button.detail"/></button></div>
+												<div class="px-1"><a class="btn btn-primary btn-sm" href="/user/input" role="button"><spring:message code="common.button.update"/></a></div>
+												<div class="px-1"><a class="btn btn-primary btn-sm" href="/user/input" role="button"><spring:message code="common.button.delete"/></a></div>
+												</td>
+											</tr>
+										</c:forEach>
+									</c:if>
+									<c:if test="${userList.totalElements == 0}">
 										<tr>
-											<td>${status.index+1}</td>
-											<td>${obj.id}</td>
-											<td>${obj.favorite}</td>
-											<td>${obj.hobby}</td>
-											<td class="d-flex justify-content-end">
-											<div class="px-1"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal01"><spring:message code="common.button.detail"/></button></div>
-											<div class="px-1"><a class="btn btn-primary btn-sm" href="/user/input" role="button"><spring:message code="common.button.update"/></a></div>
-											<div class="px-1"><a class="btn btn-primary btn-sm" href="/user/input" role="button"><spring:message code="common.button.delete"/></a></div>
-											</td>
+											<td colspan="5">検索データがないです。</td>
 										</tr>
-									</c:forEach>
+									</c:if>
 								</tbody>
 							</table>
 							<c:if test="${userList.totalElements > 0}">

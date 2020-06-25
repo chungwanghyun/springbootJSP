@@ -7,15 +7,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,9 +27,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.stpringbootjsp.constant.Constant;
-import com.example.stpringbootjsp.model.user.UserInputModel;
+import com.example.stpringbootjsp.model.user.UserInputForm;
 import com.example.stpringbootjsp.model.user.UserList;
-import com.example.stpringbootjsp.model.user.UserListModel;
+import com.example.stpringbootjsp.model.user.UserListForm;
 import com.example.stpringbootjsp.service.file.FileService;
 import com.example.stpringbootjsp.service.user.UserService;
 
@@ -50,53 +47,49 @@ public class UserControll {
 	@Autowired
 	private MessageSource messageSource;
 
-	 @Autowired
+	@Autowired
     HttpSession session;
 
 	@GetMapping("list")
 	public String list(Model model) throws Exception {
 		// 検索
-		return search(new UserListModel(), Optional.ofNullable(null), Optional.ofNullable(null), model);
+		return search(new UserListForm(), Optional.ofNullable(null), Optional.ofNullable(null), model);
 	}
 
 	@PostMapping("search")
-	public String search(@ModelAttribute("userListModel") UserListModel userListModel,
+	public String search(@ModelAttribute("userListForm") UserListForm userListForm,
 						Optional<Integer> page, Optional<Integer> size, Model model) throws Exception {
 		// 検索条件保存
-		session.setAttribute("userListModel", userListModel);
-
-		int currentPage = page.orElse(Constant.PAGE_COUNT_1);
-		int pageSize = size.orElse(2);
+		session.setAttribute("userListModel", userListForm);
 
 		// ページリスト取得
-		Page<UserList> userList = userService.list(userListModel, PageRequest.of(currentPage - 1, pageSize));
-
-		// ページ数設定
-		int totalPages = userList.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                .boxed()
-                .collect(Collectors.toList());
+		Page<UserList> userList = userService.list(userListForm, page, size);
+		// ページ数取得
+		List<Integer> pageNumbers = userService.pageNumber(userList);
+		if(pageNumbers.size() > 0) {
+			// ページ数設定
             model.addAttribute("pageNumbers", pageNumbers);
-        }
+		}
 
-        model.addAttribute("userListModel", userListModel);
+        // フォーム情報設定
+        model.addAttribute("userListForm", userListForm);
+        // リスト情報設定
 		model.addAttribute("userList", userList);
 		return "user/list";
 	}
 
 	@GetMapping("paging")
-	public String plist(@RequestParam("page") Optional<Integer> page,
+	public String paging(@RequestParam("page") Optional<Integer> page,
 						@RequestParam("size") Optional<Integer> size,
 						Model model) throws Exception {
 		// 検索条件呼び出し
-		UserListModel form = (UserListModel)session.getAttribute("userListModel");
+		UserListForm form = (UserListForm)session.getAttribute("userListModel");
 		// 検索
 		return search(form, page, size, model);
 	}
 
 	@GetMapping("input")
-	public String input(@ModelAttribute("userInputModel") UserInputModel userInputModel, Model model, Locale locale)
+	public String input(@ModelAttribute("userInputForm") UserInputForm userInputForm, Model model, Locale locale)
 			throws Exception {
 		// 初期値設定
 		initInput(model);
@@ -105,22 +98,22 @@ public class UserControll {
 	}
 
 	@PostMapping("input")
-	public String pInput(@ModelAttribute("userInputModel") @Validated UserInputModel userInputModel,
+	public String pInput(@ModelAttribute("userInputForm") @Validated UserInputForm userInputForm,
 			BindingResult result, Model model, Locale locale) throws Exception {
 		// 入力チェック(Bean Validated用以外)
-		isValid(userInputModel, result, locale);
+		isValid(userInputForm, result, locale);
 
 		// 入力チェック結果判断(Bean Validated用)
 		if (result.hasErrors()) {
 			// 初期画面フラグ
 			model.addAttribute("firstCheck", false);
 			// 画面遷移
-			return input(userInputModel, model, locale);
+			return input(userInputForm, model, locale);
 		}
 
 		try {
 			// ユーザー登録
-			userService.insertUser(userInputModel);
+			userService.insertUser(userInputForm);
 		} catch (IOException ex) {
 			throw new Exception(ex);
 		} catch (Exception ex) {
@@ -195,7 +188,7 @@ public class UserControll {
 	 * @param result
 	 * @param locale
 	 */
-	private void isValid(UserInputModel userInput, BindingResult result, Locale locale) {
+	private void isValid(UserInputForm userInput, BindingResult result, Locale locale) {
 
 		// Tempファイルチェック
 		if (userInput.getUserFileTemp1() == null || userInput.getUserFileTemp1().length() == 0) {

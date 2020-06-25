@@ -1,7 +1,11 @@
 package com.example.stpringbootjsp.service.user;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.stpringbootjsp.constant.Constant;
 import com.example.stpringbootjsp.mapper.user.UserMapper;
 import com.example.stpringbootjsp.model.user.User;
-import com.example.stpringbootjsp.model.user.UserInputModel;
+import com.example.stpringbootjsp.model.user.UserInputForm;
 import com.example.stpringbootjsp.model.user.UserList;
-import com.example.stpringbootjsp.model.user.UserListModel;
+import com.example.stpringbootjsp.model.user.UserListForm;
 import com.example.stpringbootjsp.service.file.FileService;
 import com.example.stpringbootjsp.util.Util;
 
@@ -31,7 +35,7 @@ public class UserService {
 	FileService fileService;
 
 	@Transactional
-	public void insertUser(UserInputModel userInputModelParam) throws Exception {
+	public void insertUser(UserInputForm userInputModelParam) throws Exception {
 		// オブジェクトコピー
 		User user = new User();
 		BeanUtils.copyProperties(userInputModelParam, user);
@@ -85,21 +89,47 @@ public class UserService {
 	}
 
 	@Transactional
-	public Page<UserList> list(UserListModel userListModel, Pageable pageable) throws Exception {
+	public Page<UserList> list(UserListForm userListForm, Optional<Integer> page, Optional<Integer> size) throws Exception {
+		// ページ情報チェック
+		int tmepCurrentPage = page.orElse(Constant.PAGE_COUNT_1);
+		int tempPageSize = size.orElse(Constant.PAGE_COUNT_2);
+		// ページ情報設定
+		Pageable pageable = PageRequest.of(tmepCurrentPage - 1, tempPageSize);
 		int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
+        int startCount = currentPage * pageSize;
 
-        userListModel.setMinCount(startItem);
-        userListModel.setMaxCount(pageSize);
+        // オブジェクトコピー
+ 		UserList userList = new UserList();
+ 		BeanUtils.copyProperties(userListForm, userList);
+
+        // offset値設定
+        userList.setOffsetCount(startCount);
+        // limit値設定
+        userList.setLimitCount(pageSize);
+
         // リスト取得
-        List<UserList> list =  userMapper.listUser(userListModel);
+        List<UserList> list =  userMapper.listUser(userList);
         // リスト件数取得
-        long listCount = userMapper.listUserCount(userListModel);
+        long listCount = userMapper.listUserCount(userList);
         // ページリスト設定
-        Page<UserList> userPage = new PageImpl<UserList>(list, PageRequest.of(currentPage, pageSize), listCount);
+        Page<UserList> userListPage = new PageImpl<UserList>(list, PageRequest.of(currentPage, pageSize), listCount);
 
-		return userPage;
+		return userListPage;
+	}
+
+	public List<Integer> pageNumber(Page<UserList> userList) throws Exception {
+		List<Integer> result = new ArrayList<Integer>();
+        // ページ数取得
+ 		int totalPages = userList.getTotalPages();
+ 		if (totalPages > 0) {
+             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                 .boxed()
+                 .collect(Collectors.toList());
+             result = pageNumbers;
+         }
+
+		return result;
 	}
 
 //	@Transactional
