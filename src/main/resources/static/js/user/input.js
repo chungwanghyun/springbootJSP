@@ -49,33 +49,27 @@ $(document).ready(function() {
 	    $(this).parent().prev().children('.custom-file-input').val('');
 	})
 
-//	var targetElements = document.getElementsByClassName('is-valid');
-//	[].forEach.call(targetElements, function(elem) {
-//		alert(1)
-//	 elem.classList.remove('is-valid');
-//	})
-//	var elements = document.getElementsByClassName('is-valid');
-//	Array.prototype.forEach.call(elements, function(element) {
-//	  element.classList.remove('is-valid');
-//	});
 
-//	$.ajax({
-//        url : '/testDocWeb/forwardToCallingSystem',
-//        type :'POST',
-//        data : myObject,
-//        cache: false,
-//        timeout: 600000,
-//        success : function(data) {
-//            alert('Data: ' + JSON.stringify(data));
-//        },
-//        error : function(request,error) {
-//            alert("Error : " + JSON.stringify(request));
-//        }
-//    });
+	//モーダルの中の「ボタン1」を押した時の処理
+	$("#modal01-ok").on('click', function() {
+		$('form').attr('action', '/user/input');
+		$('form').attr('target', '');
+		$('form').submit();
+	});
 
 //	$("form").submit(function() {
+//
 //	})
+
+	//show.bs.modal ： モーダルが開くとき (showメソッドを呼び出し時)
+	//shown.bs.modal ： モーダルが完全に表示されたとき
+	//hide.bs.modal ： モーダルが閉じるとき (hideメソッドを呼び出し時)
+	//hidden.bs.modal ： モーダルが完全に閉じたとき
+//	$('#sampleModal').on('hidden.bs.modal', function (event) {
+//	});
 })
+
+
 
 // 臨時ファイル保存
 function uploadTempFile(uploadFile, id) {
@@ -100,4 +94,6 @@ function uploadTempFile(uploadFile, id) {
 		$("#" + id).val(uploadFile.name);
 	});
 }
+
+
 

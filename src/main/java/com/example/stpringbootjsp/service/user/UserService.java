@@ -1,9 +1,14 @@
 package com.example.stpringbootjsp.service.user;
 
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +16,8 @@ import com.example.stpringbootjsp.constant.Constant;
 import com.example.stpringbootjsp.mapper.user.UserMapper;
 import com.example.stpringbootjsp.model.user.User;
 import com.example.stpringbootjsp.model.user.UserInputModel;
+import com.example.stpringbootjsp.model.user.UserList;
+import com.example.stpringbootjsp.model.user.UserListModel;
 import com.example.stpringbootjsp.service.file.FileService;
 import com.example.stpringbootjsp.util.Util;
 
@@ -30,6 +37,8 @@ public class UserService {
 		BeanUtils.copyProperties(userInputModelParam, user);
 		// Dateデータ型変換
 		user.setBirthday(Util.getDateFromString(Constant.DATE_FORMAT_1, userInputModelParam.getBirthday()));
+		// Array->String変換
+		user.setHobby(String.join(",", userInputModelParam.getHobby()));
 		user.setCUser(user.getId());
 		user.setUUser(user.getId());
 
@@ -73,6 +82,24 @@ public class UserService {
 				}
 			}
 		}
+	}
+
+	@Transactional
+	public Page<UserList> list(UserListModel userListModel, Pageable pageable) throws Exception {
+		int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+
+        userListModel.setMinCount(startItem);
+        userListModel.setMaxCount(pageSize);
+        // リスト取得
+        List<UserList> list =  userMapper.listUser(userListModel);
+        // リスト件数取得
+        long listCount = userMapper.listUserCount(userListModel);
+        // ページリスト設定
+        Page<UserList> userPage = new PageImpl<UserList>(list, PageRequest.of(currentPage, pageSize), listCount);
+
+		return userPage;
 	}
 
 //	@Transactional

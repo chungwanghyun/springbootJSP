@@ -4,14 +4,14 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/inc.jsp"%>
-<script src="../js/user/userInput.js" type="text/javascript"></script>
+<script src="../js/user/input.js" type="text/javascript"></script>
 <title><spring:message code="user.input.title" /></title>
 </head>
 <body>
 	<!-- ヘッダー -->
 	<%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 <%-- 	<jsp:include page="/WEB-INF/jsp/common/header.jsp"  flush="false" /> --%>
-	<!-- メイン -->
+
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb container">
 			<li class="breadcrumb-item">
@@ -20,7 +20,7 @@
 				</a>
 			</li>
 			<li class="breadcrumb-item">
-				<a href="/user/userList">
+				<a href="/user/list">
 					<spring:message code="user.list.title" />
 				</a>
 			</li>
@@ -29,6 +29,7 @@
 			</li>
 		</ol>
 	</nav>
+	<!-- メイン -->
 	<main>
 		<div class="container">
 			<h3><spring:message code="user.input.title" /></h3>
@@ -208,10 +209,32 @@
 
 					<div class="form-group row justify-content-end">
 						 <div class="col-md-9">
-						 <form:button  class="btn btn-primary" type="submit"><spring:message code="common.button.back"/> </form:button>
-						 <form:button  class="btn btn-primary" type="submit"><spring:message code="common.button.input"/> </form:button>
+						 <button type="button" class="btn btn-primary" onClick="history.back();"><spring:message code="common.button.back"/></button>
+						 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal01"><spring:message code="common.button.input"/></button>
+ <%-- 						 <form:button  class="btn btn-primary" type="submit"><spring:message code="common.button.back"/> </form:button> --%>
+<%-- 						 <form:button  class="btn btn-primary" data-toggle="modal" data-target="#modal01"><spring:message code="common.button.input"/> </form:button> --%>
 						 </div>
 					</div>
+					 <!-- モーダル01 -->
+			        <div class="modal fade" id="modal01" tabindex="-1" role="dialog" aria-labelledby="modal01-label" aria-hidden="true">
+			          <div class="modal-dialog " role="document">
+			            <div class="modal-content">
+			              <div class="modal-header">
+			                <h5 class="modal-title" id="modal01-label">登録</h5>
+			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			                  <span aria-hidden="true">&times;</span>
+			                </button>
+			              </div>
+			              <div class="modal-body">
+			                <p>よろしいでしょうか？</p>
+			              </div>
+			              <div class="modal-footer">
+			                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			                <button type="button" id="modal01-ok" class="btn btn-primary">送信</button>
+			              </div>
+			            </div>
+			          </div>
+			        </div>
 				</form:form>
 			</div>
 		</div>

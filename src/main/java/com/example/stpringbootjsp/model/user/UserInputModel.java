@@ -24,7 +24,7 @@ public class UserInputModel implements Serializable {
 	@NotNull(message = "{validation.required}")
 	private Integer favorite;
 	@NotEmpty(message = "{validation.required}")
-	private String hobby;
+	private String[] hobby;
 //	@NotEmpty(message = "{validation.required}")
 //	@Size(min = 0, max = 50, message = "{validation.size-length}")
 	@NotNull(message = "{validation.required}")

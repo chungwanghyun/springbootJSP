@@ -39,7 +39,7 @@
     	c_user, u_datetime, u_user, d_datetime, d_user
 	</sql>
 
-	<resultMap id="BaseResultMap" type="com.example.stpringbootjsp.model.user.User">
+	<resultMap id="BaseResultMap" type="com.example.stpringbootjsp.model.user.UserList">
 		<id column="seq" jdbcType="BIGINT" property="seq" />
 	    <result column="id" jdbcType="VARCHAR" property="id" />
 	    <result column="password" jdbcType="VARCHAR" property="password" />
@@ -57,19 +57,17 @@
 	    <result column="d_user" jdbcType="VARCHAR" property="dUser" />
 	</resultMap>
 
-	<select id="selectUserList" parameterType="com.example.stpringbootjsp.model.user.User" resultMap="BaseResultMap">
+	<select id="listUser" parameterType="com.example.stpringbootjsp.model.user.UserListModel" resultMap="BaseResultMap">
 		select
 			<include refid="Base_Column_List" />
 		from
 			user
 		where
 			d_datetime is null
-        <if test="usersSeq != null and usersSeq != ''">
-            and users_seq = #{usersSeq,jdbcType=BIGINT}
-        </if>
+		limit #{maxCount} offset #{minCount}
     </select>
 
-	<select id="selectUserListCount" parameterType="com.example.stpringbootjsp.model.user.User" resultType="java.lang.Long">
+	<select id="listUserCount" parameterType="com.example.stpringbootjsp.model.user.User" resultType="java.lang.Long">
 		select count(*) from user
 	</select>
 

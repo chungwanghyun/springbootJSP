@@ -8,4 +8,8 @@ public interface Constant {
 	String USER_PATH = ROOT_PATH + "USER/";
 
 	String DATE_FORMAT_1 = "MM/dd/yyyy";
+
+	Integer PAGE_COUNT_0 = 0;
+	Integer PAGE_COUNT_1 = 1;
+	Integer PAGE_COUNT_20 = 20;
 }

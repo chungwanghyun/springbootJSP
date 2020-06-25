@@ -3,11 +3,17 @@ package com.example.stpringbootjsp.controller.user;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.stpringbootjsp.constant.Constant;
 import com.example.stpringbootjsp.model.user.UserInputModel;
+import com.example.stpringbootjsp.model.user.UserList;
+import com.example.stpringbootjsp.model.user.UserListModel;
 import com.example.stpringbootjsp.service.file.FileService;
 import com.example.stpringbootjsp.service.user.UserService;
 
@@ -41,17 +49,36 @@ public class UserControll {
 	private MessageSource messageSource;
 
 	@GetMapping("list")
-	public String list(Model model) throws Exception {
+	public String list(@ModelAttribute("userListModel") UserListModel userListModel,
+			@RequestParam("page") Optional<Integer> page,
+			@RequestParam("size") Optional<Integer> size, Model model) throws Exception {
+		int currentPage = page.orElse(Constant.PAGE_COUNT_1);
+		int pageSize = size.orElse(1);
+
+		Page<UserList> userList = userService.list(userListModel, PageRequest.of(currentPage - 1, pageSize));
+
+		int totalPages = userList.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                .boxed()
+                .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+		// PageRequest(int page, int size, Sort sort);
+		model.addAttribute("userList", userList);
 		return "user/list";
 	}
 
 	@PostMapping("list")
-	public String plist(Model model) throws Exception {
+	public String plist(Model model, @RequestParam("page") Optional<Integer> page,
+			@RequestParam("size") Optional<Integer> size) throws Exception {
+
 		return "user/list";
 	}
 
 	@GetMapping("input")
-	public String input(@ModelAttribute("userInputModel") UserInputModel userInput, Model model, Locale locale)
+	public String input(@ModelAttribute("userInputModel") UserInputModel userInputModel, Model model, Locale locale)
 			throws Exception {
 		// 初期値設定
 		initInput(model);
@@ -60,26 +87,26 @@ public class UserControll {
 	}
 
 	@PostMapping("input")
-	public String pInput(@ModelAttribute("userInputModel") @Validated UserInputModel userInput,
+	public String pInput(@ModelAttribute("userInputModel") @Validated UserInputModel userInputModel,
 			BindingResult result, Model model, Locale locale) throws Exception {
 		// 入力チェック(Bean Validated用以外)
-		isValid(userInput, result, locale);
+		isValid(userInputModel, result, locale);
 
 		// 入力チェック結果判断(Bean Validated用)
 		if (result.hasErrors()) {
 			// 初期画面フラグ
 			model.addAttribute("firstCheck", false);
 			// 画面遷移
-			return input(userInput, model, locale);
+			return input(userInputModel, model, locale);
 		}
 
 		try {
 			// ユーザー登録
-			userService.insertUser(userInput);
-		} catch (IOException ex){
+			userService.insertUser(userInputModel);
+		} catch (IOException ex) {
 			throw new Exception(ex);
-		} catch(Exception ex) {
-//			log.error(ex.getMessage());
+		} catch (Exception ex) {
+			//			log.error(ex.getMessage());
 			throw new Exception(ex);
 		}
 
@@ -143,7 +170,6 @@ public class UserControll {
 		return result;
 	}
 
-
 	/**
 	 * 入力チェック
 	 *
@@ -154,7 +180,7 @@ public class UserControll {
 	private void isValid(UserInputModel userInput, BindingResult result, Locale locale) {
 
 		// Tempファイルチェック
-		if(userInput.getUserFileTemp1() == null || userInput.getUserFileTemp1().length() == 0) {
+		if (userInput.getUserFileTemp1() == null || userInput.getUserFileTemp1().length() == 0) {
 			// ファイルチェック
 			if (userInput.getUserFile1().isEmpty()) {
 				String message = messageSource.getMessage("validation.required", new String[] { "userFile1" }, locale);
@@ -164,7 +190,7 @@ public class UserControll {
 		}
 
 		// Tempファイルチェック
-		if(userInput.getUserFileTemp2() == null || userInput.getUserFileTemp2().length() == 0) {
+		if (userInput.getUserFileTemp2() == null || userInput.getUserFileTemp2().length() == 0) {
 			// ファイルチェック
 			if (userInput.getUserFile2().isEmpty()) {
 				String message = messageSource.getMessage("validation.required", new String[] { "userFile2" }, locale);

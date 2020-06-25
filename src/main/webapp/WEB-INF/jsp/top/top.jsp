@@ -113,7 +113,7 @@
 								<img src="/images/about02-thumb.jpg" class="img-fulid">
 								<div class="card-body d-flex justify-content-between">
 									<h4 class="card-title">雑貨コーナー</h4>
-									<button type="button" class="btn btn-secondary">詳しく見る</button>
+									<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal01">詳しく見る</button>
 								</div>
 							</div>
 						</div>
@@ -122,7 +122,7 @@
 								<img src="/images/about02-thumb.jpg" class="img-fulid">
 								<div class="card-body d-flex justify-content-between">
 									<h4 class="card-title">雑貨コーナー</h4>
-									<button type="button" class="btn btn-secondary">詳しく見る</button>
+									<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal02">詳しく見る</button>
 								</div>
 							</div>
 						</div>
@@ -131,11 +131,81 @@
 								<img src="/images/about02-thumb.jpg" class="img-fulid">
 								<div class="card-body d-flex justify-content-between">
 									<h4 class="card-title">雑貨コーナー</h4>
-									<button type="button" class="btn btn-secondary">詳しく見る</button>
+									<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal03">詳しく見る</button>
 								</div>
 							</div>
 						</div>
 					</div>
+					 <!-- /下段 -->
+			        <!-- モーダル -->
+			        <!-- モーダル01 -->
+			        <div class="modal fade" id="modal01" tabindex="-1" role="dialog" aria-labelledby="modal01-label" aria-hidden="true">
+			          <div class="modal-dialog modal-dialog-centered" role="document">
+			            <div class="modal-content">
+			              <div class="modal-header">
+			                <h5 class="modal-title" id="modal01-label">くつろぎの空間</h5>
+			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			                  <span aria-hidden="true">&times;</span>
+			                </button>
+			              </div>
+			              <div class="modal-body">
+			                <p class="text-center">
+			                  <img alt="#" src="/images/about02.jpg" class="img-fluid">
+			                </p>
+			                <p>店主がこだわった家具たちです。座り心地の良いソファと丁度良い高さのテーブル。くつろぎの空間を満喫してください。</p>
+			              </div>
+			              <div class="modal-footer">
+			                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			              </div>
+			            </div>
+			          </div>
+			        </div>
+			        <!-- モーダル02 -->
+			        <div class="modal fade" id="modal02" tabindex="-1" role="dialog" aria-labelledby="modal01-label" aria-hidden="true">
+			          <div class="modal-dialog modal-dialog-centered" role="document">
+			            <div class="modal-content">
+			              <div class="modal-header">
+			                <h5 class="modal-title" id="modal02-label">雑貨コーナー</h5>
+			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			                  <span aria-hidden="true">&times;</span>
+			                </button>
+			              </div>
+			              <div class="modal-body">
+			                <p class="text-center">
+			                  <img alt="#" src="/images/about03.jpg" class="img-fluid">
+			                </p>
+			                <p>店内には作家さんの手作り雑貨を展示、販売しております。委託販売をご希望の作家さんは お問合せフォームより お問合せください。</p>
+			              </div>
+			              <div class="modal-footer">
+			                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			              </div>
+			            </div>
+			          </div>
+			        </div>
+			        <!-- モーダル03 -->
+			        <div class="modal fade" id="modal03" tabindex="-1" role="dialog" aria-labelledby="modal01-label" aria-hidden="true">
+			          <div class="modal-dialog modal-dialog-centered" role="document">
+			            <div class="modal-content">
+			              <div class="modal-header">
+			                <h5 class="modal-title" id="modal03-label">キッズドリンク</h5>
+			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			                  <span aria-hidden="true">&times;</span>
+			                </button>
+			              </div>
+			              <div class="modal-body">
+			                <p class="text-center">
+			                  <img alt="#" src="/images/about04.jpg" class="img-fluid">
+			                </p>
+			                <p>オレンジやアップル、好きなジュースを選んで自分でグラスに注ぐ、子どもたちに大人気のキッズドリンクコーナーです。</p>
+			              </div>
+			              <div class="modal-footer">
+			                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		                 	<button type="button" id="modal03-ok" class="btn btn-primary">送信</button>
+			              </div>
+			            </div>
+			          </div>
+			        </div>
+        <!-- / モーダル -->
 				</div>
 			</section>
 		</div>
