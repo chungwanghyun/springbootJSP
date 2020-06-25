@@ -17,6 +17,7 @@
 			</li>
 			<li class="breadcrumb-item active" aria-current="page">
 				<spring:message code="user.list.title" />
+				<spring:message code="user.list.title" />
 			</li>
 		</ol>
 	</nav>
