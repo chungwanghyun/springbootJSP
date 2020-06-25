@@ -16,7 +16,7 @@
 		<ol class="breadcrumb container">
 			<li class="breadcrumb-item">
 				<a href="/">
-					<spring:message code="top.title" />
+					<spring:message code="top.title" /><spring:message code="top.title" />
 				</a>
 			</li>
 			<li class="breadcrumb-item">
