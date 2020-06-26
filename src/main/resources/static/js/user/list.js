@@ -7,7 +7,10 @@ $(document).ready(function() {
 		$('form').submit();
 	});
 
-
+	// ソート変更
+	$("#sort").on('change', function() {
+		location.href = "/user/paging?sort=" + $(this).val();
+	});
 
 	//show.bs.modal ： モーダルが開くとき (showメソッドを呼び出し時)
 	//shown.bs.modal ： モーダルが完全に表示されたとき

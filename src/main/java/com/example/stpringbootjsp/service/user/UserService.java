@@ -1,11 +1,8 @@
 package com.example.stpringbootjsp.service.user;
 
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,14 +96,19 @@ public class UserService {
         int currentPage = pageable.getPageNumber();
         int startCount = currentPage * pageSize;
 
+//        // ソート情報チェック
+//        String sortTemp = sort.orElse("id ASC");
+
         // オブジェクトコピー
  		UserList userList = new UserList();
  		BeanUtils.copyProperties(userListForm, userList);
 
-        // offset値設定
+        // offset設定
         userList.setOffsetCount(startCount);
-        // limit値設定
+        // limit設定
         userList.setLimitCount(pageSize);
+//        // ソート設定
+//        userList.setSort(sortTemp);
 
         // リスト取得
         List<UserList> list =  userMapper.listUser(userList);
@@ -118,19 +120,39 @@ public class UserService {
 		return userListPage;
 	}
 
-	public List<Integer> pageNumber(Page<UserList> userList) throws Exception {
-		List<Integer> result = new ArrayList<Integer>();
-        // ページ数取得
- 		int totalPages = userList.getTotalPages();
- 		if (totalPages > 0) {
-             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                 .boxed()
-                 .collect(Collectors.toList());
-             result = pageNumbers;
-         }
-
-		return result;
-	}
+//	public List<Integer> pageNumber(Page<UserList> userList) throws Exception {
+//		List<Integer> result = new ArrayList<Integer>();
+//        // ページ数取得
+// 		int totalPages = userList.getTotalPages();
+// 		if (totalPages > 0) {
+// 			// 表示するページ番号設定
+// 			if(totalPages <= Constant.MAX_PAGE_10) {
+// 				List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+//	                 .boxed()
+//	                 .collect(Collectors.toList());
+// 				result = pageNumbers;
+// 			} else {
+// 				int start = userList.getPageable().getPageNumber() + 1 -(Constant.MAX_PAGE_10/2);
+// 				int end = start + Constant.MAX_PAGE_10 - 1;
+//
+// 				if (start < 1) {
+// 	                start = 1;
+// 	                end = start + Constant.MAX_PAGE_10 - 1;
+// 	            }
+//
+// 				if(end > totalPages) {
+// 					end = totalPages;
+// 					start = end - Constant.MAX_PAGE_10 + 1;
+//
+// 				}
+// 				List<Integer> pageNumbers = IntStream.rangeClosed(start, end)
+// 		                 .boxed()
+// 		                 .collect(Collectors.toList());
+// 	 				result = pageNumbers;
+// 			}
+//         }
+//		return result;
+//	}
 
 //	@Transactional
 //	public List<TrackingListResult> list(TrackingListParam trackingListParam) throws Exception {

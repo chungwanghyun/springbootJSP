@@ -15,4 +15,6 @@ public class UserListForm implements Serializable {
 	private Integer favorite;
 	private String hobby;
 
+	private String sort;
+
 }

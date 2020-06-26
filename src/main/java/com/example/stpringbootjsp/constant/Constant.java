@@ -16,4 +16,6 @@ public interface Constant {
 	Integer PAGE_COUNT_20 = 20;
 	Integer PAGE_COUNT_50 = 50;
 	Integer PAGE_COUNT_100 = 100;
+
+	Integer MAX_PAGE_10 = 10;
 }

@@ -22,32 +22,45 @@
 	</nav>
 	<!-- メイン -->
 	<main>
-
+	<form:form action="/user/list" method="POST" modelAttribute="userListForm">
 		<!-- 検索条件 -->
 		<div class="py-4">
 			<section id="searchS">
 				<div class="container">
-					<form:form action="/user/list" method="POST" modelAttribute="userListForm">
 						<div class="form-group row">
-							<label for="id" class="col-md-3 col-form-label">
-								<spring:message code="user.input.id"/><span class="badge badge-warning">必須</span>
+							<label for="id" class="col-md-1 col-form-label">
+								<spring:message code="user.input.id"/>
 							 </label>
-							 <div class="col-md-9">
+							 <div class="col-md-11">
 							 	<form:input path="id" class="form-control form-control-sm" placeholder="Id" />
 							 </div>
 						</div>
-						<button type="button" class="btn btn-primary" id="search"><spring:message code="common.button.search"/></button>
 					<div class="row">
 					<div class="col-12">
-						<a class="btn btn-primary" href="/user/input" role="button"><spring:message code="common.button.input"/></a>
+						<button type="button" class="btn btn-primary btn-sm" id="search"><spring:message code="common.button.search"/></button>
+						<a class="btn btn-primary btn-sm" href="/user/new" role="button"><spring:message code="common.button.input"/></a>
 					</div>
 					</div>
-					</form:form>
+
 				</div>
 			</section>
 		</div>
 
 		<div class="py-4">
+			<c:if test="${userList.totalElements > 0}">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 d-flex justify-content-end">
+						 	<form:select class="form-control form-control-sm col-4 col-md-2" path="sort" items="${sortList}" id="sort"/>
+<%-- 						 	<form:select class="form-control form-control-sm col-4 col-md-2" path="sort" onChange="location.href=value;"> --%>
+<%-- 							    <form:option value="/user/search" label="--並べ替え--"/> --%>
+<%-- 							    <form:option value="/user/paging?sort=id DESC" label="id"/> --%>
+<%-- 							    <form:option value="/user/paging?sort=id ASC" label="id"/> --%>
+<%-- 							</form:select> --%>
+					</div>
+				</div>
+			</div>
+			</c:if>
 			<section id="list">
 				<div class="container">
 					<div class="row">
@@ -86,8 +99,8 @@
 								</tbody>
 							</table>
 							<c:if test="${userList.totalElements > 0}">
-								<nav aria-label="ページ送りの実例">
-								  <ul class="pagination justify-content-end">
+								<nav aria-label="paging">
+								  <ul class="pagination pagination-sm justify-content-end">
 									<li class="page-item ${userList.number + 1 == 1 ? 'disabled': ''} ">
 								      <a class="page-link" href="/user/paging?page=1" aria-label="prev">
 								       <span aria-hidden="true">&lt;&lt;</span>
@@ -141,7 +154,7 @@
 			        </div>
 			</section>
 		</div>
-
+		</form:form>
 	</main>
 </body>
 </html>

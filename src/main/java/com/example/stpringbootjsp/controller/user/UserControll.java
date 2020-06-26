@@ -32,8 +32,8 @@ import com.example.stpringbootjsp.model.user.UserList;
 import com.example.stpringbootjsp.model.user.UserListForm;
 import com.example.stpringbootjsp.service.file.FileService;
 import com.example.stpringbootjsp.service.user.UserService;
+import com.example.stpringbootjsp.util.Util;
 
-//@Slf4j
 @Controller
 @RequestMapping("/user")
 public class UserControll {
@@ -45,7 +45,7 @@ public class UserControll {
 	UserService userService;
 
 	@Autowired
-	private MessageSource messageSource;
+	MessageSource messageSource;
 
 	@Autowired
     HttpSession session;
@@ -53,19 +53,25 @@ public class UserControll {
 	@GetMapping("list")
 	public String list(Model model) throws Exception {
 		// 検索
-		return search(new UserListForm(), Optional.ofNullable(null), Optional.ofNullable(null), model);
+		return search(new UserListForm(),
+						Optional.ofNullable(null),
+						Optional.ofNullable(null),
+						model);
 	}
 
 	@PostMapping("search")
 	public String search(@ModelAttribute("userListForm") UserListForm userListForm,
 						Optional<Integer> page, Optional<Integer> size, Model model) throws Exception {
+		// 初期値設定
+		initList(model);
+
 		// 検索条件保存
 		session.setAttribute("userListModel", userListForm);
 
 		// ページリスト取得
 		Page<UserList> userList = userService.list(userListForm, page, size);
 		// ページ数取得
-		List<Integer> pageNumbers = userService.pageNumber(userList);
+		List<Integer> pageNumbers = Util.pageNumber(userList.getTotalPages(), userList.getPageable().getPageNumber());
 		if(pageNumbers.size() > 0) {
 			// ページ数設定
             model.addAttribute("pageNumbers", pageNumbers);
@@ -75,30 +81,37 @@ public class UserControll {
         model.addAttribute("userListForm", userListForm);
         // リスト情報設定
 		model.addAttribute("userList", userList);
+
+
 		return "user/list";
 	}
 
 	@GetMapping("paging")
 	public String paging(@RequestParam("page") Optional<Integer> page,
 						@RequestParam("size") Optional<Integer> size,
+						String sort,
 						Model model) throws Exception {
 		// 検索条件呼び出し
 		UserListForm form = (UserListForm)session.getAttribute("userListModel");
+        // ソート情報チェック
+		if(sort != null) {
+			form.setSort(sort);
+		}
 		// 検索
 		return search(form, page, size, model);
 	}
 
-	@GetMapping("input")
-	public String input(@ModelAttribute("userInputForm") UserInputForm userInputForm, Model model, Locale locale)
+	@GetMapping("new")
+	public String newUser(@ModelAttribute("userInputForm") UserInputForm userInputForm, Model model, Locale locale)
 			throws Exception {
 		// 初期値設定
 		initInput(model);
 
-		return "user/input";
+		return "user/new";
 	}
 
-	@PostMapping("input")
-	public String pInput(@ModelAttribute("userInputForm") @Validated UserInputForm userInputForm,
+	@PostMapping("save")
+	public String save(@ModelAttribute("userInputForm") @Validated UserInputForm userInputForm,
 			BindingResult result, Model model, Locale locale) throws Exception {
 		// 入力チェック(Bean Validated用以外)
 		isValid(userInputForm, result, locale);
@@ -108,7 +121,7 @@ public class UserControll {
 			// 初期画面フラグ
 			model.addAttribute("firstCheck", false);
 			// 画面遷移
-			return input(userInputForm, model, locale);
+			return newUser(userInputForm, model, locale);
 		}
 
 		try {
@@ -129,7 +142,7 @@ public class UserControll {
 
 	@PostMapping("update")
 	public String update(Model model) throws Exception {
-		return "user/input";
+		return "user/new";
 	}
 
 	@PostMapping("delete")
@@ -167,6 +180,19 @@ public class UserControll {
 		if (model.getAttribute("firstCheck") == null) {
 			model.addAttribute("firstCheck", true);
 		}
+	}
+
+	private void initList(Model model) throws Exception {
+		Map<String, String> selectMap = new LinkedHashMap<String, String>();
+		selectMap.put(null, "--並べ替え--");
+		selectMap.put("id DESC", "id 降順");
+		selectMap.put("id ASC", "id 昇順");
+		model.addAttribute("sortList", selectMap);
+
+//		// 初期画面フラグ
+//		if (model.getAttribute("firstCheck") == null) {
+//			model.addAttribute("firstCheck", true);
+//		}
 	}
 
 	@PostMapping("saveTempFile")

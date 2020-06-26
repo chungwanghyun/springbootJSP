@@ -9,5 +9,6 @@ public class UserList extends User {
 
 	private int limitCount;
 	private int offsetCount;
+	private String sort;
 
 }

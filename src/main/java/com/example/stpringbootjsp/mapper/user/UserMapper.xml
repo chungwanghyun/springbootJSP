@@ -57,7 +57,7 @@
 	    <result column="d_user" jdbcType="VARCHAR" property="dUser" />
 	</resultMap>
 
-	<select id="listUser" parameterType="com.example.stpringbootjsp.model.user.UserListForm" resultMap="BaseResultMap">
+	<select id="listUser" parameterType="com.example.stpringbootjsp.model.user.UserList" resultMap="BaseResultMap">
 		select
 			<include refid="Base_Column_List" />
 		from
@@ -70,6 +70,9 @@
 <!--         <if test="usersSeq != null and usersSeq != ''"> -->
 <!--             and a.users_seq = #{usersSeq} -->
 <!--         </if> -->
+		<if test="sort != null and sort != ''">
+			order by ${sort}
+		</if>
 		limit #{limitCount} offset #{offsetCount}
     </select>
 

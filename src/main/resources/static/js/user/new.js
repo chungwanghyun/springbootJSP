@@ -52,7 +52,7 @@ $(document).ready(function() {
 
 	//モーダルの中の「ボタン1」を押した時の処理
 	$("#modal01-ok").on('click', function() {
-		$('form').attr('action', '/user/input');
+		$('form').attr('action', '/user/save');
 		$('form').attr('target', '');
 		$('form').submit();
 	});
