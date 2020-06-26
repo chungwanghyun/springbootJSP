@@ -102,12 +102,12 @@
 								<nav aria-label="paging">
 								  <ul class="pagination pagination-sm justify-content-end">
 									<li class="page-item ${userList.number + 1 == 1 ? 'disabled': ''} ">
-								      <a class="page-link" href="/user/paging?page=1" aria-label="prev">
+								      <a class="page-link" href="/user/paging?page=1" tabindex="-1" aria-label="prev">
 								       <span aria-hidden="true">&lt;&lt;</span>
 								      </a>
 									</li>
 									<li class="page-item ${userList.number + 1 == 1 ? 'disabled': ''} ">
-								      <a class="page-link" href="/user/paging?page=${userList.number}" aria-label="prev">
+								      <a class="page-link" href="/user/paging?page=${userList.number}" tabindex="-1" aria-label="prev">
 								       <span aria-hidden="true">&lt;</span>
 								      </a>
 									</li>
@@ -115,12 +115,12 @@
 								  		<li class="page-item ${pageNumber == userList.number + 1 ? 'active': ''} "><a class="page-link " href="/user/paging?page=${pageNumber}">${pageNumber}</a></li>
 								  	</c:forEach>
 								  	<li class="page-item ${userList.number + 1 == userList.totalPages ? 'disabled': ''} ">
-								      <a class="page-link" href="/user/paging?page=${userList.number + 2}" aria-label="next">
+								      <a class="page-link" href="/user/paging?page=${userList.number + 2}" tabindex="-1" aria-label="next">
 								       <span aria-hidden="true">&gt;</span>
 								      </a>
 									</li>
 								  	<li class="page-item ${userList.number + 1 == userList.totalPages ? 'disabled': ''} ">
-								      <a class="page-link" href="/user/paging?page=${userList.totalPages}" aria-label="next">
+								      <a class="page-link" href="/user/paging?page=${userList.totalPages}" tabindex="-1" aria-label="next">
 								       <span aria-hidden="true">&gt;&gt;</span>
 								      </a>
 									</li>
