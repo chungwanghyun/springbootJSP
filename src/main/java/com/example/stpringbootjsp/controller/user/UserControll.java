@@ -12,7 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,20 +51,20 @@ public class UserControll {
 	MessageSource messageSource;
 
 	@Autowired
-    HttpSession session;
+	HttpSession session;
 
 	@GetMapping("list")
 	public String list(Model model) throws Exception {
 		// 検索
 		return search(new UserListForm(),
-						Optional.ofNullable(null),
-						Optional.ofNullable(null),
-						model);
+				Optional.ofNullable(null),
+				Optional.ofNullable(null),
+				model);
 	}
 
 	@PostMapping("search")
 	public String search(@ModelAttribute("userListForm") UserListForm userListForm,
-						Optional<Integer> page, Optional<Integer> size, Model model) throws Exception {
+			Optional<Integer> page, Optional<Integer> size, Model model) throws Exception {
 		// 初期値設定
 		initList(model);
 
@@ -72,33 +75,41 @@ public class UserControll {
 		Page<UserList> userList = userService.list(userListForm, page, size);
 		// ページ数取得
 		List<Integer> pageNumbers = Util.pageNumber(userList.getTotalPages(), userList.getPageable().getPageNumber());
-		if(pageNumbers.size() > 0) {
+		if (pageNumbers.size() > 0) {
 			// ページ数設定
-            model.addAttribute("pageNumbers", pageNumbers);
+			model.addAttribute("pageNumbers", pageNumbers);
 		}
 
-        // フォーム情報設定
-        model.addAttribute("userListForm", userListForm);
-        // リスト情報設定
+		// フォーム情報設定
+		model.addAttribute("userListForm", userListForm);
+		// リスト情報設定
 		model.addAttribute("userList", userList);
-
 
 		return "user/list";
 	}
 
 	@GetMapping("paging")
 	public String paging(@RequestParam("page") Optional<Integer> page,
-						@RequestParam("size") Optional<Integer> size,
-						String sort,
-						Model model) throws Exception {
+			@RequestParam("size") Optional<Integer> size,
+			String sort,
+			Model model) throws Exception {
 		// 検索条件呼び出し
-		UserListForm form = (UserListForm)session.getAttribute("userListModel");
-        // ソート情報チェック
-		if(sort != null) {
+		UserListForm form = (UserListForm) session.getAttribute("userListModel");
+		// ソート情報チェック
+		if (sort != null) {
 			form.setSort(sort);
 		}
 		// 検索
 		return search(form, page, size, model);
+	}
+
+	@GetMapping("download")
+	//  @ResponseBody
+	public ResponseEntity<Resource> getFile(@RequestParam("filename") String filename) throws Exception {
+		Resource file = fileService.load(filename, Constant.USER_TEMP_PATH);
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+				.body(file);
 	}
 
 	@GetMapping("new")
@@ -189,10 +200,10 @@ public class UserControll {
 		selectMap.put("id ASC", "id 昇順");
 		model.addAttribute("sortList", selectMap);
 
-//		// 初期画面フラグ
-//		if (model.getAttribute("firstCheck") == null) {
-//			model.addAttribute("firstCheck", true);
-//		}
+		//		// 初期画面フラグ
+		//		if (model.getAttribute("firstCheck") == null) {
+		//			model.addAttribute("firstCheck", true);
+		//		}
 	}
 
 	@PostMapping("saveTempFile")

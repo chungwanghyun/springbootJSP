@@ -72,6 +72,7 @@
 									     <th scope="col">id</th>
 									     <th scope="col">favorite</th>
 									     <th scope="col">hobby</th>
+									     <th scope="col">download</th>
 									     <th scope="col"></th>
 									</tr>
 								</thead>
@@ -83,6 +84,7 @@
 												<td>${obj.id}</td>
 												<td>${obj.favorite}</td>
 												<td>${obj.hobby}</td>
+												<td><a href="/user/download?filename=765274604_0.jpg">wn_env.xlsx</a></td>
 												<td class="d-flex justify-content-end">
 												<div class="px-1"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal01"><spring:message code="common.button.detail"/></button></div>
 												<div class="px-1"><a class="btn btn-primary btn-sm" href="/user/input" role="button"><spring:message code="common.button.update"/></a></div>

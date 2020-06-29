@@ -1,11 +1,14 @@
 package com.example.stpringbootjsp.service.file;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.UUID;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -85,31 +88,32 @@ public class FileService {
 		//		FileSystemUtils.deleteRecursively(root.toFile());
 	}
 
-    public String saveTemporaryFile(MultipartFile file, Path path)
-        throws IOException {
+//    public String saveTemporaryFile(MultipartFile file, Path path)
+//        throws IOException {
+//
+//        String uploadTemporaryFileId = UUID.randomUUID().toString();
+////        File uploadTemporaryFile = new File(uploadTemporaryDirectory, uploadTemporaryFileId);
+//
+//        Files.copy(file.getInputStream(), path.resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING);
+//
+//        return uploadTemporaryFileId;
+//    }
 
-        String uploadTemporaryFileId = UUID.randomUUID().toString();
-//        File uploadTemporaryFile = new File(uploadTemporaryDirectory, uploadTemporaryFileId);
+	public Resource load(String filename, String filePath) throws Exception {
+		try {
+			Path path = Paths.get(filePath);
+			Path file = path.resolve(filename);
+			Resource resource = new UrlResource(file.toUri());
 
-        Files.copy(file.getInputStream(), path.resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING);
-
-        return uploadTemporaryFileId;
-    }
-
-	//	public Resource load(String filename) throws Exception  {
-	//		try {
-	//			Path file = root.resolve(filename);
-	//			Resource resource = new UrlResource(file.toUri());
-	//
-	//			if (resource.exists() || resource.isReadable()) {
-	//				return resource;
-	//			} else {
-	//				throw new RuntimeException("Could not read the file!");
-	//			}
-	//		} catch (MalformedURLException e) {
-	//			throw new RuntimeException("Error: " + e.getMessage());
-	//		}
-	//	}
+			if (resource.exists() || resource.isReadable()) {
+				return resource;
+			} else {
+				throw new RuntimeException("Could not read the file!");
+			}
+		} catch (MalformedURLException e) {
+			throw new RuntimeException("Error: " + e.getMessage());
+		}
+	}
 
 	//	public Stream<Path> loadAll() {
 	//		try {
