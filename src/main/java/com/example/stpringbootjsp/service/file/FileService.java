@@ -42,7 +42,8 @@ public class FileService {
 		boolean result = false;
 		try {
 			// StandardCopyOption.REPLACE_EXISTINGオプションを指定して、上書き保存
-			Files.copy(file.getInputStream(), path.resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(file.getInputStream(), path.resolve(file.getOriginalFilename()),
+															StandardCopyOption.REPLACE_EXISTING);
 			result = true;
 		} catch (IOException ex) {
 			throw new Exception(ex);
@@ -66,6 +67,36 @@ public class FileService {
 			throw new Exception(ex);
 		}
 		return result;
+	}
+
+	/**
+	 * ファイルロード
+	 *
+	 * @param filename
+	 * @param filePath
+	 * @return
+	 * @throws Exception
+	 */
+	public Resource load(String filename, String filePath) throws Exception {
+		Path path = Paths.get(filePath);
+		Path file = path.resolve(filename);
+		Resource resource = new UrlResource(file.toUri());
+
+		return resource;
+//		try {
+//			Path path = Paths.get(filePath);
+//			Path file = path.resolve(filename);
+//			Resource resource = new UrlResource(file.toUri());
+//
+//			return resource;
+//			if (resource.exists() || resource.isReadable()) {
+//				return resource;
+//			} else {
+//				throw new RuntimeException("Could not read the file!");
+//			}
+//		} catch (MalformedURLException e) {
+//			throw new RuntimeException("Error: " + e.getMessage());
+//		}
 	}
 
 
@@ -98,27 +129,7 @@ public class FileService {
 //        return uploadTemporaryFileId;
 //    }
 
-	public Resource load(String filename, String filePath) throws Exception {
-		Path path = Paths.get(filePath);
-		Path file = path.resolve(filename);
-		Resource resource = new UrlResource(file.toUri());
 
-		return resource;
-//		try {
-//			Path path = Paths.get(filePath);
-//			Path file = path.resolve(filename);
-//			Resource resource = new UrlResource(file.toUri());
-//
-//			return resource;
-//			if (resource.exists() || resource.isReadable()) {
-//				return resource;
-//			} else {
-//				throw new RuntimeException("Could not read the file!");
-//			}
-//		} catch (MalformedURLException e) {
-//			throw new RuntimeException("Error: " + e.getMessage());
-//		}
-	}
 
 	//	public Stream<Path> loadAll() {
 	//		try {

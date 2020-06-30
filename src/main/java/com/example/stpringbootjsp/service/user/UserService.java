@@ -47,15 +47,15 @@ public class UserService {
 		int result = userMapper.insertUser(user);
 
 		// 登録OK
-		if(result == 1) {
+		if (result == 1) {
 			// ファイル保存
-			if(userInputModelParam.getUserFileTemp1() != null && userInputModelParam.getUserFileTemp1().length() > 0) {
+			if (userInputModelParam.getUserFileTemp1() != null && userInputModelParam.getUserFileTemp1().length() > 0) {
 				// ディレクトリー作成
 				fileService.makeDir(Paths.get(Constant.USER_PATH));
 
 				// Tempからファイルを移動させる
 				fileService.move(Paths.get(Constant.USER_TEMP_PATH + userInputModelParam.getUserFileTemp1()),
-								Paths.get(Constant.USER_PATH + userInputModelParam.getUserFileTemp1()));
+						Paths.get(Constant.USER_PATH + userInputModelParam.getUserFileTemp1()));
 			} else {
 				// Temp用ディレクトリー作成
 				fileService.makeDir(Paths.get(Constant.USER_TEMP_PATH));
@@ -66,13 +66,13 @@ public class UserService {
 				}
 			}
 
-			if(userInputModelParam.getUserFileTemp2() != null && userInputModelParam.getUserFileTemp2().length() > 0) {
+			if (userInputModelParam.getUserFileTemp2() != null && userInputModelParam.getUserFileTemp2().length() > 0) {
 				// Temp用ディレクトリー作成
 				fileService.makeDir(Paths.get(Constant.USER_PATH));
 
 				// Tempからファイルを移動させる
 				fileService.move(Paths.get(Constant.USER_TEMP_PATH + userInputModelParam.getUserFileTemp2()),
-								Paths.get(Constant.USER_PATH + userInputModelParam.getUserFileTemp2()));
+						Paths.get(Constant.USER_PATH + userInputModelParam.getUserFileTemp2()));
 			} else {
 				// ディレクトリー作成
 				fileService.makeDir(Paths.get(Constant.USER_TEMP_PATH));
@@ -86,91 +86,92 @@ public class UserService {
 	}
 
 	@Transactional
-	public Page<UserList> list(UserListForm userListForm, Optional<Integer> page, Optional<Integer> size) throws Exception {
+	public Page<UserList> list(UserListForm userListForm, Optional<Integer> page, Optional<Integer> size)
+			throws Exception {
 		// ページ情報チェック
 		int tmepCurrentPage = page.orElse(Constant.PAGE_COUNT_1);
 		int tempPageSize = size.orElse(Constant.PAGE_COUNT_2);
 		// ページ情報設定
 		Pageable pageable = PageRequest.of(tmepCurrentPage - 1, tempPageSize);
 		int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startCount = currentPage * pageSize;
+		int currentPage = pageable.getPageNumber();
+		int startCount = currentPage * pageSize;
 
-//        // ソート情報チェック
-//        String sortTemp = sort.orElse("id ASC");
+		//        // ソート情報チェック
+		//        String sortTemp = sort.orElse("id ASC");
 
-        // オブジェクトコピー
- 		UserList userList = new UserList();
- 		BeanUtils.copyProperties(userListForm, userList);
+		// オブジェクトコピー
+		UserList userList = new UserList();
+		BeanUtils.copyProperties(userListForm, userList);
 
-        // offset設定
-        userList.setOffsetCount(startCount);
-        // limit設定
-        userList.setLimitCount(pageSize);
-//        // ソート設定
-//        userList.setSort(sortTemp);
+		// offset設定
+		userList.setOffsetCount(startCount);
+		// limit設定
+		userList.setLimitCount(pageSize);
+		//        // ソート設定
+		//        userList.setSort(sortTemp);
 
-        // リスト取得
-        List<UserList> list =  userMapper.listUser(userList);
-        // リスト件数取得
-        long listCount = userMapper.listUserCount(userList);
-        // ページリスト設定
-        Page<UserList> userListPage = new PageImpl<UserList>(list, PageRequest.of(currentPage, pageSize), listCount);
+		// リスト取得
+		List<UserList> list = userMapper.listUser(userList);
+		// リスト件数取得
+		long listCount = userMapper.listUserCount(userList);
+		// ページリスト設定
+		Page<UserList> userListPage = new PageImpl<UserList>(list, PageRequest.of(currentPage, pageSize), listCount);
 
 		return userListPage;
 	}
 
-//	public List<Integer> pageNumber(Page<UserList> userList) throws Exception {
-//		List<Integer> result = new ArrayList<Integer>();
-//        // ページ数取得
-// 		int totalPages = userList.getTotalPages();
-// 		if (totalPages > 0) {
-// 			// 表示するページ番号設定
-// 			if(totalPages <= Constant.MAX_PAGE_10) {
-// 				List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-//	                 .boxed()
-//	                 .collect(Collectors.toList());
-// 				result = pageNumbers;
-// 			} else {
-// 				int start = userList.getPageable().getPageNumber() + 1 -(Constant.MAX_PAGE_10/2);
-// 				int end = start + Constant.MAX_PAGE_10 - 1;
-//
-// 				if (start < 1) {
-// 	                start = 1;
-// 	                end = start + Constant.MAX_PAGE_10 - 1;
-// 	            }
-//
-// 				if(end > totalPages) {
-// 					end = totalPages;
-// 					start = end - Constant.MAX_PAGE_10 + 1;
-//
-// 				}
-// 				List<Integer> pageNumbers = IntStream.rangeClosed(start, end)
-// 		                 .boxed()
-// 		                 .collect(Collectors.toList());
-// 	 				result = pageNumbers;
-// 			}
-//         }
-//		return result;
-//	}
+	//	public List<Integer> pageNumber(Page<UserList> userList) throws Exception {
+	//		List<Integer> result = new ArrayList<Integer>();
+	//        // ページ数取得
+	// 		int totalPages = userList.getTotalPages();
+	// 		if (totalPages > 0) {
+	// 			// 表示するページ番号設定
+	// 			if(totalPages <= Constant.MAX_PAGE_10) {
+	// 				List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+	//	                 .boxed()
+	//	                 .collect(Collectors.toList());
+	// 				result = pageNumbers;
+	// 			} else {
+	// 				int start = userList.getPageable().getPageNumber() + 1 -(Constant.MAX_PAGE_10/2);
+	// 				int end = start + Constant.MAX_PAGE_10 - 1;
+	//
+	// 				if (start < 1) {
+	// 	                start = 1;
+	// 	                end = start + Constant.MAX_PAGE_10 - 1;
+	// 	            }
+	//
+	// 				if(end > totalPages) {
+	// 					end = totalPages;
+	// 					start = end - Constant.MAX_PAGE_10 + 1;
+	//
+	// 				}
+	// 				List<Integer> pageNumbers = IntStream.rangeClosed(start, end)
+	// 		                 .boxed()
+	// 		                 .collect(Collectors.toList());
+	// 	 				result = pageNumbers;
+	// 			}
+	//         }
+	//		return result;
+	//	}
 
-//	@Transactional
-//	public List<TrackingListResult> list(TrackingListParam trackingListParam) throws Exception {
-//		// リスト結果
-//        List<TrackingListResult> trackingListResult = new ArrayList<TrackingListResult>();
-//
-//		// trackingデートリスト取得
-//        List<TrackingList> trackingDateList = trackingMapper.selectTrackingDateList(trackingListParam);
-//        for (TrackingList trackingDate : trackingDateList) {
-//            TrackingListResult trackingList = new TrackingListResult();
-//            trackingList.setDate(trackingDate.getcDatetime());
-//            // trackingリスト取得
-//            trackingListParam.setDate(trackingDate.getcDatetime());
-//            trackingList.setTrackingList(trackingMapper.selectTrackingList(trackingListParam));
-//            // リスト設定
-//            trackingListResult.add(trackingList);
-//        }
-//		return trackingListResult;
-//	}
+	//	@Transactional
+	//	public List<TrackingListResult> list(TrackingListParam trackingListParam) throws Exception {
+	//		// リスト結果
+	//        List<TrackingListResult> trackingListResult = new ArrayList<TrackingListResult>();
+	//
+	//		// trackingデートリスト取得
+	//        List<TrackingList> trackingDateList = trackingMapper.selectTrackingDateList(trackingListParam);
+	//        for (TrackingList trackingDate : trackingDateList) {
+	//            TrackingListResult trackingList = new TrackingListResult();
+	//            trackingList.setDate(trackingDate.getcDatetime());
+	//            // trackingリスト取得
+	//            trackingListParam.setDate(trackingDate.getcDatetime());
+	//            trackingList.setTrackingList(trackingMapper.selectTrackingList(trackingListParam));
+	//            // リスト設定
+	//            trackingListResult.add(trackingList);
+	//        }
+	//		return trackingListResult;
+	//	}
 
 }

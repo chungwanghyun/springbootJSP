@@ -37,8 +37,12 @@
 						</div>
 					<div class="row">
 					<div class="col-12">
-						<button type="button" class="btn btn-primary btn-sm" id="search"><spring:message code="common.button.search"/></button>
-						<a class="btn btn-primary btn-sm" href="/user/new" role="button"><spring:message code="common.button.input"/></a>
+						<button type="button" class="btn btn-primary btn-sm" id="search">
+							<spring:message code="common.button.search"/>
+						</button>
+						<a class="btn btn-primary btn-sm" href="/user/new" role="button">
+							<spring:message code="common.button.input"/>
+						</a>
 					</div>
 					</div>
 
@@ -51,7 +55,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 d-flex justify-content-end">
-						 	<form:select class="form-control form-control-sm col-4 col-md-2" path="sort" items="${sortList}" id="sort"/>
+					 	<form:select class="form-control form-control-sm col-4 col-md-2" path="sort" items="${sortList}" id="sort"/>
 <%-- 						 	<form:select class="form-control form-control-sm col-4 col-md-2" path="sort" onChange="location.href=value;"> --%>
 <%-- 							    <form:option value="/user/search" label="--並べ替え--"/> --%>
 <%-- 							    <form:option value="/user/paging?sort=id DESC" label="id"/> --%>
@@ -86,9 +90,21 @@
 												<td>${obj.hobby}</td>
 												<td><a href="/user/download?filename=765274604_0.jpg">wn_env.xlsx</a></td>
 												<td class="d-flex justify-content-end">
-												<div class="px-1"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal01"><spring:message code="common.button.detail"/></button></div>
-												<div class="px-1"><a class="btn btn-primary btn-sm" href="/user/input" role="button"><spring:message code="common.button.update"/></a></div>
-												<div class="px-1"><a class="btn btn-primary btn-sm" href="/user/input" role="button"><spring:message code="common.button.delete"/></a></div>
+												<div class="px-1">
+													<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal01">
+														<spring:message code="common.button.detail"/>
+													</button>
+												</div>
+												<div class="px-1">
+													<a class="btn btn-primary btn-sm" href="/user/input" role="button">
+														<spring:message code="common.button.update"/>
+													</a>
+												</div>
+												<div class="px-1">
+													<a class="btn btn-primary btn-sm" href="/user/input" role="button">
+														<spring:message code="common.button.delete"/>
+													</a>
+												</div>
 												</td>
 											</tr>
 										</c:forEach>
@@ -114,7 +130,9 @@
 								      </a>
 									</li>
 								  	<c:forEach var="pageNumber" items="${pageNumbers}" varStatus="status">
-								  		<li class="page-item ${pageNumber == userList.number + 1 ? 'active': ''} "><a class="page-link " href="/user/paging?page=${pageNumber}">${pageNumber}</a></li>
+								  		<li class="page-item ${pageNumber == userList.number + 1 ? 'active': ''} ">
+								  			<a class="page-link " href="/user/paging?page=${pageNumber}">${pageNumber}</a>
+							  			</li>
 								  	</c:forEach>
 								  	<li class="page-item ${userList.number + 1 == userList.totalPages ? 'disabled': ''} ">
 								      <a class="page-link" href="/user/paging?page=${userList.number + 2}" tabindex="-1" aria-label="next">

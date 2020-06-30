@@ -220,60 +220,6 @@
 		<div class="py-4"></div>
 		<!-- /コンテンツ05 -->
 	</main>
-<!-- 	<div -->
-<!-- 		style="margin-left: 100px; margin-right: 100px; margin-top: 100px;"> -->
-<%-- 		<form:form action="/login?lang=en" method="POST" class="form-signin" --%>
-<%-- 			modelAttribute="topModel"> --%>
-<!-- 			<div class="text-center mb-4"> -->
-<!-- 				<h3>ログイン</h3> -->
-<!-- 			</div> -->
-
-<!-- 			<div class="form-label-group"> -->
-<!-- 				<label for="inputEmail">Eメールアドレス</label> -->
-<%-- 				<form:input path="id" class="form-control" placeholder="Email"></form:input> --%>
-<!-- 			</div> -->
-
-<!-- 			<div class="form-label-group"> -->
-<!-- 				<label for="inputPassword">パスワード</label> -->
-<%-- 				<form:password path="password" class="form-control" --%>
-<%-- 					placeholder="Password"></form:password> --%>
-<!-- 			</div> -->
-
-<!-- 			<div class="checkbox mb-3"> -->
-<!-- 				<label> <input type="checkbox" value="remember-me"> -->
-<!-- 					パスワードを記憶 -->
-<!-- 				</label> -->
-<!-- 			</div> -->
-<!-- 			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign -->
-<!-- 				in</button> -->
-<%-- 		</form:form> --%>
-
-<%-- 		<form:form action="/login?lang=jsss" method="POST" class="form-signin" --%>
-<%-- 			modelAttribute="topModel"> --%>
-<!-- 			<div class="text-center mb-4"> -->
-<!-- 				<h3>ログイン</h3> -->
-<!-- 			</div> -->
-
-<!-- 			<div class="form-label-group"> -->
-<!-- 				<label for="inputEmail">Eメールアドレス</label> -->
-<%-- 				<form:input path="id" class="form-control" placeholder="Email"></form:input> --%>
-<!-- 			</div> -->
-
-<!-- 			<div class="form-label-group"> -->
-<!-- 				<label for="inputPassword">パスワード</label> -->
-<%-- 				<form:password path="password" class="form-control" --%>
-<%-- 					placeholder="Password"></form:password> --%>
-<!-- 			</div> -->
-
-<!-- 			<div class="checkbox mb-3"> -->
-<!-- 				<label> <input type="checkbox" value="remember-me"> -->
-<!-- 					パスワードを記憶 -->
-<!-- 				</label> -->
-<!-- 			</div> -->
-<!-- 			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign -->
-<!-- 				in</button> -->
-<%-- 		</form:form> --%>
-<!-- 	</div> -->
 	<!-- フッター -->
 	<%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 </body>

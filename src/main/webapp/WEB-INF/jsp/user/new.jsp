@@ -140,7 +140,9 @@
 				        <div class="col-md-9">
 			                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
 				                <spring:bind path="birthday">
-				                    <form:input path="birthday" class="form-control form-control-sm datetimepicker-input ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }" data-toggle="datetimepicker" data-target="#datetimepicker1"/>
+				                    <form:input path="birthday"
+				                    	class="form-control form-control-sm datetimepicker-input ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }"
+				                    	data-toggle="datetimepicker" data-target="#datetimepicker1"/>
 				                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
 				                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
 				                    </div>
@@ -167,8 +169,11 @@
 							<div class="input-group">
 <!-- 								<div class="custom-file"> -->
 								<spring:bind path="userFile1">
-									<input type="file" class="custom-file-input  form-control-sm ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }" name="userFile1" id="userFile1">
-									<label class="custom-file-label" for="userFile1" data-browse="<spring:message code="common.button.browse"/>" data-message="<spring:message code='common.file.message'/>">
+									<input type="file" class="custom-file-input  form-control-sm ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }"
+										name="userFile1" id="userFile1">
+									<label class="custom-file-label" for="userFile1"
+										data-browse="<spring:message code="common.button.browse"/>"
+										data-message="<spring:message code='common.file.message'/>">
 										<spring:message code="common.file.message"/>
 									</label>
 									<div class="invalid-feedback"><form:errors path="userFile1"/></div>
@@ -191,8 +196,11 @@
 							<div class="input-group">
 <!-- 								<div class="custom-file"> -->
 								<spring:bind path="userFile2">
-							      <input type="file" class="custom-file-input  form-control-sm ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }"  name="userFile2" id="userFile2">
-									<label class="custom-file-label" for="userFile2" data-browse="<spring:message code='common.button.browse'/>" data-message="<spring:message code='common.file.message'/>">
+							      <input type="file" class="custom-file-input  form-control-sm ${firstCheck ? '' : status.error ? 'is-invalid' : 'is-valid' }"
+							      	name="userFile2" id="userFile2">
+									<label class="custom-file-label" for="userFile2"
+										data-browse="<spring:message code='common.button.browse'/>"
+										data-message="<spring:message code='common.file.message'/>">
 										<spring:message code="common.file.message"/>
 							      	</label>
 							      	<div class="invalid-feedback"><form:errors path="userFile2"/></div>
@@ -209,8 +217,12 @@
 
 					<div class="form-group row justify-content-end">
 						 <div class="col-md-9">
-						 <button type="button" class="btn btn-primary" onClick="history.back();"><spring:message code="common.button.back"/></button>
-						 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal01"><spring:message code="common.button.input"/></button>
+						 <button type="button" class="btn btn-primary" onClick="history.back();">
+						 	<spring:message code="common.button.back"/>
+					 	</button>
+						 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal01">
+						 	<spring:message code="common.button.input"/>
+					 	</button>
  <%-- 						 <form:button  class="btn btn-primary" type="submit"><spring:message code="common.button.back"/> </form:button> --%>
 <%-- 						 <form:button  class="btn btn-primary" data-toggle="modal" data-target="#modal01"><spring:message code="common.button.input"/> </form:button> --%>
 						 </div>
