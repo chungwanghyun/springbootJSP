@@ -5,16 +5,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import lombok.extern.slf4j.Slf4j;
+import com.example.stpringbootjsp.util.LogUtils;
 
-@Slf4j
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler  {
 	// すべての例外をキャッチする
 	// どこにもキャッチされなかったらこれが呼ばれる
     @ExceptionHandler(value = Exception.class)
     public String handleDemoExceptionForGlobal(Exception e) {
-        log.error(e.getMessage());
+        LogUtils.error(e.getMessage());
         return "error/error";
     }
 

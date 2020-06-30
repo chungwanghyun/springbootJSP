@@ -1,7 +1,6 @@
 package com.example.stpringbootjsp.service.file;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -100,19 +99,25 @@ public class FileService {
 //    }
 
 	public Resource load(String filename, String filePath) throws Exception {
-		try {
-			Path path = Paths.get(filePath);
-			Path file = path.resolve(filename);
-			Resource resource = new UrlResource(file.toUri());
+		Path path = Paths.get(filePath);
+		Path file = path.resolve(filename);
+		Resource resource = new UrlResource(file.toUri());
 
-			if (resource.exists() || resource.isReadable()) {
-				return resource;
-			} else {
-				throw new RuntimeException("Could not read the file!");
-			}
-		} catch (MalformedURLException e) {
-			throw new RuntimeException("Error: " + e.getMessage());
-		}
+		return resource;
+//		try {
+//			Path path = Paths.get(filePath);
+//			Path file = path.resolve(filename);
+//			Resource resource = new UrlResource(file.toUri());
+//
+//			return resource;
+//			if (resource.exists() || resource.isReadable()) {
+//				return resource;
+//			} else {
+//				throw new RuntimeException("Could not read the file!");
+//			}
+//		} catch (MalformedURLException e) {
+//			throw new RuntimeException("Error: " + e.getMessage());
+//		}
 	}
 
 	//	public Stream<Path> loadAll() {

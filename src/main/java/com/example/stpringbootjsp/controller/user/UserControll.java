@@ -35,6 +35,7 @@ import com.example.stpringbootjsp.model.user.UserList;
 import com.example.stpringbootjsp.model.user.UserListForm;
 import com.example.stpringbootjsp.service.file.FileService;
 import com.example.stpringbootjsp.service.user.UserService;
+import com.example.stpringbootjsp.util.LogUtils;
 import com.example.stpringbootjsp.util.Util;
 
 @Controller
@@ -55,6 +56,7 @@ public class UserControll {
 
 	@GetMapping("list")
 	public String list(Model model) throws Exception {
+		LogUtils.info("userList");
 		// 検索
 		return search(new UserListForm(),
 				Optional.ofNullable(null),
