@@ -22,20 +22,49 @@
 	</nav>
 	<!-- メイン -->
 	<main>
+	<form:form action="/user/list" method="POST" modelAttribute="userListForm">
 		<!-- 検索条件 -->
 		<div class="py-4">
-			<section id="search">
+			<section id="searchS">
 				<div class="container">
-					<div class="row">
-						<div class="col-12">
-							<a class="btn btn-primary" href="/user/input" role="button"><spring:message code="common.button.input"/></a>
+						<div class="form-group row">
+							<label for="id" class="col-md-1 col-form-label">
+								<spring:message code="user.input.id"/>
+							 </label>
+							 <div class="col-md-11">
+							 	<form:input path="id" class="form-control form-control-sm" placeholder="Id" />
+							 </div>
 						</div>
+					<div class="row">
+					<div class="col-12">
+						<button type="button" class="btn btn-primary btn-sm" id="search">
+							<spring:message code="common.button.search"/>
+						</button>
+						<a class="btn btn-primary btn-sm" href="/user/new" role="button">
+							<spring:message code="common.button.input"/>
+						</a>
 					</div>
+					</div>
+
 				</div>
 			</section>
 		</div>
 
 		<div class="py-4">
+			<c:if test="${userList.totalElements > 0}">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 d-flex justify-content-end">
+					 	<form:select class="form-control form-control-sm col-4 col-md-2" path="sort" items="${sortList}" id="sort"/>
+<%-- 						 	<form:select class="form-control form-control-sm col-4 col-md-2" path="sort" onChange="location.href=value;"> --%>
+<%-- 							    <form:option value="/user/search" label="--並べ替え--"/> --%>
+<%-- 							    <form:option value="/user/paging?sort=id DESC" label="id"/> --%>
+<%-- 							    <form:option value="/user/paging?sort=id ASC" label="id"/> --%>
+<%-- 							</form:select> --%>
+					</div>
+				</div>
+			</div>
+			</c:if>
 			<section id="list">
 				<div class="container">
 					<div class="row">
@@ -47,48 +76,71 @@
 									     <th scope="col">id</th>
 									     <th scope="col">favorite</th>
 									     <th scope="col">hobby</th>
+									     <th scope="col">download</th>
 									     <th scope="col"></th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="obj" items="${userList.content}" varStatus="status">
+									<c:if test="${userList.totalElements > 0}">
+										<c:forEach var="obj" items="${userList.content}" varStatus="status">
+											<tr>
+												<td>${status.index+1}</td>
+												<td>${obj.id}</td>
+												<td>${obj.favorite}</td>
+												<td>${obj.hobby}</td>
+												<td><a href="/user/download?filename=765274604_0.jpg">wn_env.xlsx</a></td>
+												<td class="d-flex justify-content-end">
+												<div class="px-1">
+													<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal01">
+														<spring:message code="common.button.detail"/>
+													</button>
+												</div>
+												<div class="px-1">
+													<a class="btn btn-primary btn-sm" href="/user/input" role="button">
+														<spring:message code="common.button.update"/>
+													</a>
+												</div>
+												<div class="px-1">
+													<a class="btn btn-primary btn-sm" href="/user/input" role="button">
+														<spring:message code="common.button.delete"/>
+													</a>
+												</div>
+												</td>
+											</tr>
+										</c:forEach>
+									</c:if>
+									<c:if test="${userList.totalElements == 0}">
 										<tr>
-											<td>${status.index+1}</td>
-											<td>${obj.id}</td>
-											<td>${obj.favorite}</td>
-											<td>${obj.hobby}</td>
-											<td class="d-flex justify-content-end">
-											<div class="px-1"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal01"><spring:message code="common.button.detail"/></button></div>
-											<div class="px-1"><a class="btn btn-primary btn-sm" href="/user/input" role="button"><spring:message code="common.button.update"/></a></div>
-											<div class="px-1"><a class="btn btn-primary btn-sm" href="/user/input" role="button"><spring:message code="common.button.delete"/></a></div>
-											</td>
+											<td colspan="5">検索データがないです。</td>
 										</tr>
-									</c:forEach>
+									</c:if>
 								</tbody>
 							</table>
 							<c:if test="${userList.totalElements > 0}">
-								<nav aria-label="ページ送りの実例">
-								  <ul class="pagination justify-content-end">
+								<nav aria-label="paging">
+								  <ul class="pagination pagination-sm justify-content-end">
 									<li class="page-item ${userList.number + 1 == 1 ? 'disabled': ''} ">
-								      <a class="page-link" href="/user/list?page=1" aria-label="prev">
+								      <a class="page-link" href="/user/paging?page=1" tabindex="-1" aria-label="prev">
 								       <span aria-hidden="true">&lt;&lt;</span>
 								      </a>
 									</li>
 									<li class="page-item ${userList.number + 1 == 1 ? 'disabled': ''} ">
-								      <a class="page-link" href="/user/list?page=${userList.number}" aria-label="prev">
+								      <a class="page-link" href="/user/paging?page=${userList.number}" tabindex="-1" aria-label="prev">
 								       <span aria-hidden="true">&lt;</span>
 								      </a>
 									</li>
 								  	<c:forEach var="pageNumber" items="${pageNumbers}" varStatus="status">
-								  		<li class="page-item ${pageNumber == userList.number + 1 ? 'active': ''} "><a class="page-link " href="/user/list?page=${pageNumber}">${pageNumber}</a></li>
+								  		<li class="page-item ${pageNumber == userList.number + 1 ? 'active': ''} ">
+								  			<a class="page-link " href="/user/paging?page=${pageNumber}">${pageNumber}</a>
+							  			</li>
 								  	</c:forEach>
 								  	<li class="page-item ${userList.number + 1 == userList.totalPages ? 'disabled': ''} ">
-								      <a class="page-link" href="/user/list?page=${userList.number + 2}" aria-label="next">
+								      <a class="page-link" href="/user/paging?page=${userList.number + 2}" tabindex="-1" aria-label="next">
 								       <span aria-hidden="true">&gt;</span>
 								      </a>
 									</li>
 								  	<li class="page-item ${userList.number + 1 == userList.totalPages ? 'disabled': ''} ">
-								      <a class="page-link" href="/user/list?page=${userList.totalPages}" aria-label="next">
+								      <a class="page-link" href="/user/paging?page=${userList.totalPages}" tabindex="-1" aria-label="next">
 								       <span aria-hidden="true">&gt;&gt;</span>
 								      </a>
 									</li>
@@ -122,6 +174,7 @@
 			        </div>
 			</section>
 		</div>
+		</form:form>
 	</main>
 </body>
 </html>

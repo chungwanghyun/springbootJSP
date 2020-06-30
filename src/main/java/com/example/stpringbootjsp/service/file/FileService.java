@@ -3,9 +3,11 @@ package com.example.stpringbootjsp.service.file;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.UUID;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,7 +42,8 @@ public class FileService {
 		boolean result = false;
 		try {
 			// StandardCopyOption.REPLACE_EXISTINGオプションを指定して、上書き保存
-			Files.copy(file.getInputStream(), path.resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(file.getInputStream(), path.resolve(file.getOriginalFilename()),
+															StandardCopyOption.REPLACE_EXISTING);
 			result = true;
 		} catch (IOException ex) {
 			throw new Exception(ex);
@@ -66,6 +69,36 @@ public class FileService {
 		return result;
 	}
 
+	/**
+	 * ファイルロード
+	 *
+	 * @param filename
+	 * @param filePath
+	 * @return
+	 * @throws Exception
+	 */
+	public Resource load(String filename, String filePath) throws Exception {
+		Path path = Paths.get(filePath);
+		Path file = path.resolve(filename);
+		Resource resource = new UrlResource(file.toUri());
+
+		return resource;
+//		try {
+//			Path path = Paths.get(filePath);
+//			Path file = path.resolve(filename);
+//			Resource resource = new UrlResource(file.toUri());
+//
+//			return resource;
+//			if (resource.exists() || resource.isReadable()) {
+//				return resource;
+//			} else {
+//				throw new RuntimeException("Could not read the file!");
+//			}
+//		} catch (MalformedURLException e) {
+//			throw new RuntimeException("Error: " + e.getMessage());
+//		}
+	}
+
 
 	/**
 	 * ファイル削除
@@ -85,31 +118,18 @@ public class FileService {
 		//		FileSystemUtils.deleteRecursively(root.toFile());
 	}
 
-    public String saveTemporaryFile(MultipartFile file, Path path)
-        throws IOException {
+//    public String saveTemporaryFile(MultipartFile file, Path path)
+//        throws IOException {
+//
+//        String uploadTemporaryFileId = UUID.randomUUID().toString();
+////        File uploadTemporaryFile = new File(uploadTemporaryDirectory, uploadTemporaryFileId);
+//
+//        Files.copy(file.getInputStream(), path.resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING);
+//
+//        return uploadTemporaryFileId;
+//    }
 
-        String uploadTemporaryFileId = UUID.randomUUID().toString();
-//        File uploadTemporaryFile = new File(uploadTemporaryDirectory, uploadTemporaryFileId);
 
-        Files.copy(file.getInputStream(), path.resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING);
-
-        return uploadTemporaryFileId;
-    }
-
-	//	public Resource load(String filename) throws Exception  {
-	//		try {
-	//			Path file = root.resolve(filename);
-	//			Resource resource = new UrlResource(file.toUri());
-	//
-	//			if (resource.exists() || resource.isReadable()) {
-	//				return resource;
-	//			} else {
-	//				throw new RuntimeException("Could not read the file!");
-	//			}
-	//		} catch (MalformedURLException e) {
-	//			throw new RuntimeException("Error: " + e.getMessage());
-	//		}
-	//	}
 
 	//	public Stream<Path> loadAll() {
 	//		try {

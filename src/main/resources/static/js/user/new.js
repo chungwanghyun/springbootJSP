@@ -52,7 +52,7 @@ $(document).ready(function() {
 
 	//モーダルの中の「ボタン1」を押した時の処理
 	$("#modal01-ok").on('click', function() {
-		$('form').attr('action', '/user/input');
+		$('form').attr('action', '/user/save');
 		$('form').attr('target', '');
 		$('form').submit();
 	});
@@ -88,11 +88,18 @@ function uploadTempFile(uploadFile, id) {
 		cache: false,
         processData: false,
         contentType: false,
-	}).done(function(data) {
-		// 成功:true
-		// 失敗:false
-		$("#" + id).val(uploadFile.name);
-	});
+        success 	: function(data) {
+        	$("#" + id).val(uploadFile.name);
+        },
+        error		: function(error) {
+			alert("ERROR");
+        }
+	})
+//	}).done(function(data) {
+//		// 成功:true
+//		// 失敗:false
+//		$("#" + id).val(uploadFile.name);
+//	});
 }
 
 

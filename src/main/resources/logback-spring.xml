@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- log file path -->
+	<property name="LOG_PATH" value="/opt/tomcat/logs/springboot" />
+	<!-- log file name -->
+	<property name="LOG_FILE_NAME" value="springboot"/>
+	<!-- pattern -->
+	<property name="LOG_PATTERN" value="[%-5p] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%logger{36}] - [%m]%n"/>
+	<!-- log level -->
+	<property name="LOG_LEVEL" value="INFO"/>
+
+	<!-- 標準出力用設定 -->
+	<appender name="CONSOLE"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- ファイル出力用設定 -->
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- 出力先ファイルパス設定 -->
+		<file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+
+		<!-- 出力パータン設定-->
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+
+		<!-- ログのローテーション設定 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- 容量 kb, mb, gb -->
+				<!-- ローテーションのトリガ。100MBに達した時点でローテーション。 -->
+				<maxFileSize>1kb</maxFileSize>
+			 </timeBasedFileNamingAndTriggeringPolicy>
+			<!-- 最大保管日数 保管日数が経過すると自動削除 -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+
+<!-- rootロガーを継承したサブロガー。rootロガーの設定を引き継ぎつつ、追加でファイルBにもログを出す -->
+<!-- 	<logger name="com.example.stpringbootjsp" level="INFO"> -->
+<!-- 		<appender-ref ref="FILE" /> -->
+<!-- 	</logger> -->
+
+	<!-- SQLローグ -->
+	<logger name="com.example.stpringbootjsp.mapper" level="DEBUG"/>
+
+	<!-- rootロガー。ログは原則ファイルと標準出力に出力する -->
+	<root level="${LOG_LEVEL}">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</root>
+
+</configuration>
