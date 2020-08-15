@@ -28,7 +28,7 @@
 					<div class="carousel-inner">
 						<!-- スライド01 -->
 						<div class="carousel-item active">
-							<img class="img-fluid" src="/images/slide_01.jpg" alt="コーヒー写真">
+							<img class="img-fluid" src="./images/slide_01.jpg" alt="コーヒー写真">
 							<div class="carousel-caption d-none d-md-block">
 								<h2>Mr. M COFFEEのこだわり</h2>
 								<p>店主が世界中のコーヒー豆を厳選し、コーヒー豆の種類にあわせ、心を込めて焙煎、抽出しております。</p>
@@ -37,7 +37,7 @@
 						<!-- / スライド01 -->
 						<!-- スライド02 -->
 						<div class="carousel-item">
-							<img class="img-fluid" src="/images/slide_02.jpg" alt="ランチ写真">
+							<img class="img-fluid" src="./images/slide_02.jpg" alt="ランチ写真">
 							<div class="carousel-caption d-none d-md-block">
 								<h2>Mr. M COFFEEのメニュー</h2>
 								<p>コーヒーはもちろん、モーニングやワンプレートランチ、季節のスイーツなどもご好評いただいております</p>
@@ -46,7 +46,7 @@
 						<!-- / スライド02 -->
 						<!-- スライド03 -->
 						<div class="carousel-item">
-							<img class="img-fluid" src="/images/slide_03.jpg" alt="店内写真">
+							<img class="img-fluid" src="./images/slide_03.jpg" alt="店内写真">
 							<div class="carousel-caption d-none d-md-block">
 								<h2>Mr. M COFFEEの空間</h2>
 								<p>座り心地の良いソファと丁度良い高さのテーブル。くつろぎの空間を満喫してください。</p>
@@ -104,13 +104,13 @@
 							<a href="#" class="btn btn-info">店舗情報を見る</a>
 						</div>
 						<div class="col-md-4">
-							<img src="/images/about01.jpg" class="img-fluid">
+							<img src="./images/about01.jpg" class="img-fluid">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-4">
 							<div class="card mb-3">
-								<img src="/images/about02-thumb.jpg" class="img-fulid">
+								<img src="./images/about02-thumb.jpg" class="img-fulid">
 								<div class="card-body d-flex justify-content-between">
 									<h4 class="card-title">雑貨コーナー</h4>
 									<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal01">詳しく見る</button>
@@ -119,7 +119,7 @@
 						</div>
 						<div class="col-md-4">
 							<div class="card mb-3">
-								<img src="/images/about02-thumb.jpg" class="img-fulid">
+								<img src="./images/about02-thumb.jpg" class="img-fulid">
 								<div class="card-body d-flex justify-content-between">
 									<h4 class="card-title">雑貨コーナー</h4>
 									<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal02">詳しく見る</button>
@@ -128,7 +128,7 @@
 						</div>
 						<div class="col-md-4">
 							<div class="card mb-3">
-								<img src="/images/about02-thumb.jpg" class="img-fulid">
+								<img src="./images/about02-thumb.jpg" class="img-fulid">
 								<div class="card-body d-flex justify-content-between">
 									<h4 class="card-title">雑貨コーナー</h4>
 									<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal03">詳しく見る</button>
@@ -150,7 +150,7 @@
 			              </div>
 			              <div class="modal-body">
 			                <p class="text-center">
-			                  <img alt="#" src="/images/about02.jpg" class="img-fluid">
+			                  <img alt="#" src="./images/about02.jpg" class="img-fluid">
 			                </p>
 			                <p>店主がこだわった家具たちです。座り心地の良いソファと丁度良い高さのテーブル。くつろぎの空間を満喫してください。</p>
 			              </div>
@@ -172,7 +172,7 @@
 			              </div>
 			              <div class="modal-body">
 			                <p class="text-center">
-			                  <img alt="#" src="/images/about03.jpg" class="img-fluid">
+			                  <img alt="#" src="./images/about03.jpg" class="img-fluid">
 			                </p>
 			                <p>店内には作家さんの手作り雑貨を展示、販売しております。委託販売をご希望の作家さんは お問合せフォームより お問合せください。</p>
 			              </div>
@@ -194,7 +194,7 @@
 			              </div>
 			              <div class="modal-body">
 			                <p class="text-center">
-			                  <img alt="#" src="/images/about04.jpg" class="img-fluid">
+			                  <img alt="#" src="./images/about04.jpg" class="img-fluid">
 			                </p>
 			                <p>オレンジやアップル、好きなジュースを選んで自分でグラスに注ぐ、子どもたちに大人気のキッズドリンクコーナーです。</p>
 			              </div>
