@@ -13,7 +13,7 @@ public class TopControll {
 
     @GetMapping("/")
     public String root(TopModel topModel) throws Exception {
-        return "top/top";
+        return "redirect:/top";
     }
 
     @PostMapping("/")
@@ -21,7 +21,7 @@ public class TopControll {
         return "top/top";
     }
 
-    @PostMapping("/top")
+    @GetMapping("/top")
     public String pTop(TopModel topModel) throws Exception {
         return "top/top";
     }

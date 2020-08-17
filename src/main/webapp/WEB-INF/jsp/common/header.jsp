@@ -2,7 +2,7 @@
 <header class="py-4">
 	<div class="container text-center">
 		<h1>
-			<a href="/"><img src="./images/logo.png" alt="カフェ Mr. M COFFEE"></a>
+			<a href="/"><img src="/images/logo.png" alt="カフェ Mr. M COFFEE"></a>
 		</h1>
 	</div>
 </header>
